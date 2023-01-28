@@ -1,4 +1,5 @@
 public enum Type
 {
-    Snake, Leopard, Monkey, Okapi; 
+    Snake, Leopard, Monkey, Okapi;
+
 }
