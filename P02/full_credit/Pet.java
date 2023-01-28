@@ -14,6 +14,6 @@ public class Pet
     @Override
     public String toString()
     {
-        return name + "is a" + type + "age" + age;
+        return name + " is a " + type + " of age " + age;
     }
 }
