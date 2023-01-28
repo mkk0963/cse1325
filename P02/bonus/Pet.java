@@ -3,7 +3,7 @@ public class Pet
     private String name;
     private double age;
     private Type type;
-    final static double humanLifespan = 80;
+    private final static double humanLifespan = 80;
 
     public Pet (String name, double age, Type type)
     {
