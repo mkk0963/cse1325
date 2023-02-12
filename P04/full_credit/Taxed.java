@@ -9,7 +9,8 @@ public class Taxed extends Product
 
     public static void setTaxRate(double salesTax)
     {
-        salesTax = salesTaxRate;
+        //salesTax = salesTaxRate;
+        salesTaxRate = salesTax;
     }
 
     @Override

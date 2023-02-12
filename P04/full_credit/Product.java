@@ -17,8 +17,8 @@ public abstract class Product
     public String toString()
     {
         // finish building a better  string that matches the output
-        StringBuilder items = new StringBuilder(" " + name + " ($");
-        items.append(String.format("%.2f) \t\t\t $%6.2f", cost, price()));
+        StringBuilder items = new StringBuilder(name + " ($");
+        items.append(String.format("%.2f) \t\t\t $%2.2f ", cost, price()));
    
         return items.toString();
     }
