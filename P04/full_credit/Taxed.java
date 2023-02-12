@@ -9,7 +9,6 @@ public class Taxed extends Product
 
     public static void setTaxRate(double salesTax)
     {
-        //salesTax = salesTaxRate;
         salesTaxRate = salesTax;
     }
 
