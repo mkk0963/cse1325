@@ -1,6 +1,6 @@
 public class Taxed extends Product
 {
-    private static double tax = 0.0;
+    private static double salesTaxRate = 0.0;
 
     public Taxed(String name, double cost)
     {
@@ -9,12 +9,12 @@ public class Taxed extends Product
 
     public static void setTaxRate(double salesTax)
     {
-        salesTax = tax;
+        salesTax = salesTaxRate;
     }
 
     @Override
     public double price()
     {
-        return cost * (1+tax);
+        return cost * (1+salesTaxRate);
     }
 }
