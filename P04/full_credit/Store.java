@@ -59,14 +59,23 @@ public class Store
             System.out.println("Buy which product?");
             int item = in.nextInt(); in.nextLine();
             System.out.println();
-            if(item >= 0)
+
+            try
             {
-                shoppingCart.add(products.get(item));
+                if(item >= 0)
+                {
+                    shoppingCart.add(products.get(item));
+                }
+                else
+                {
+                 break;
+                } 
             }
-            else
+            catch(IndexOutOfBoundsException e)
             {
-                break;
-            } 
+                System.out.println(" ⚠️  This product is not on the Store's list. Try again. ⚠️");
+                System.out.println();
+            }
         }
     }
 }

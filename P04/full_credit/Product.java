@@ -8,7 +8,10 @@ public abstract class Product
         this.name = name;
         this.cost = cost;
 
-        //throw runtime exception if cost is negaive!!!!!
+        if(cost < 0)
+        {
+            throw new RuntimeException("cost cannot be negative!");
+        }
     }
 
     public abstract double price();
