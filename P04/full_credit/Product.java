@@ -19,10 +19,9 @@ public abstract class Product
     @Override
     public String toString()
     {
-        // finish building a better  string that matches the output
-        StringBuilder items = new StringBuilder(name + " ($");
-        items.append(String.format("%.2f) \t\t\t $%2.2f ", cost, price()));
-   
+        StringBuilder items = new StringBuilder();
+        items.append(String.format("%-10s($%.2f)\t\t\t$  %.2f ", name, cost, price()));
+
         return items.toString();
     }
 }

@@ -11,17 +11,14 @@ public class Store
         Scanner in = new Scanner(System.in);
         Taxed.setTaxRate(0.0825);
 
-        products.add(new Taxfree("Milk", 2.85));
-        products.add(new Taxfree("Bread", 1.99));
-        products.add(new Taxfree("Cheese", 0.85));
-        products.add(new Taxfree("Eggs", 6.951));
+        products.add(new Taxfree("Beans", 2.850));
+        products.add(new Taxfree("Rice", 3.320));
+        products.add(new Taxfree("Water", 1.500));
+        products.add(new Taxfree("Eggs", 6.950));
 
-        products.add(new Taxed("Ice cream", 4.95));
-        products.add(new Taxed("Poptarts", 3.49));
+        products.add(new Taxed("Detergent", 4.95));
+        products.add(new Taxed("Haribo", 3.49));
         products.add(new Taxed("Oreos", 5.99));
-
-        //shoppingCart.add(new Taxfree("Cheese", 0.85));
-       //shoppingCart.add(new Taxed("Poptarts", 3.49));    
 
         while(true)
         {
