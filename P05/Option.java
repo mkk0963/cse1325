@@ -41,8 +41,7 @@ public class Option
             return cost == (Long)o;
         }
         Option options = (Option)o;
-        return name.equals(options.name);
-        
-        //return cost.equals(options.cost);
+        return name.equals(options.name) && Long.valueOf(cost).equals(options.cost);
+    
     }
 }

@@ -51,7 +51,7 @@ public class Computer
             return false;
         }
         Computer computers = (Computer)o;
-        return name.equals(computers.name);
+        return name.equals(computers.name) && options.equals(computers.options);
 
         //  Improve!! not sure if this is correct. 
     }
