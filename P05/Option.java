@@ -1,4 +1,4 @@
-public class Option
+public class Option // inheritance is in the future!!
 {
     protected String name;
     protected long cost;
@@ -16,14 +16,15 @@ public class Option
 
     public long cost()
     {
-        return cost/100;
+        return cost;
     }
 
     @Override
     public String toString()
     {
-        return name + " ($" + cost + ") ";
+        return name + " ($" + (cost/100.0) + ") ";
     }
+
 
     @Override
     public boolean equals(Object o)
