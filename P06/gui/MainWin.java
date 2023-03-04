@@ -28,8 +28,18 @@ import java.awt.Color;               // the color of widgets, text, or borders
 import java.awt.Font;                // rich text in a JLabel or similar widget
 import java.awt.image.BufferedImage; // holds an image loaded from a file
 
-public class MainWin extends JFrame {
-    public MainWin(String title) {
+enum Record
+{
+    CUSTOMER, OPTION, COMPUTER, ORDER;
+}
+
+public class MainWin extends JFrame 
+{
+    private Store store;
+    private JLabel display;
+
+    public MainWin(String title) 
+    {
         super(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 200);
@@ -39,32 +49,74 @@ public class MainWin extends JFrame {
         // Add a menu bar to the PAGE_START area of the Border Layout
 
         JMenuBar menubar = new JMenuBar();
-        
-        JMenu     file       = new JMenu("File");
+
+        JMenu file = new JMenu("File");
+        JMenuItem quit = new JMenuItem("Quit");
+
+        JMenu insert = new JMenu("Insert");
+        JMenuItem insertCust  = new JMenuItem("Insert Customer");
+        JMenuItem  insertOpt = new JMenuItem("Insert Option");
+        JMenuItem insertComp = new JMenuItem("Insert Computer");
+
+        JMenu view = new JMenu("View");
+        JMenuItem viewCust = new JMenuItem("View Customers");
+        JMenuItem viewOpt = new JMenuItem("View Options");
+        JMenuItem viewComp = new JMenuItem("View Computer");
+
+        JMenu help = new JMenu("Help");
+        JMenuItem about = new JMenuItem("About");
+
+        // old code
+        /*
         JMenuItem anew       = new JMenuItem("New Game");
-        JMenuItem quit       = new JMenuItem("Quit");
         JMenu     help       = new JMenu("Help");
         JMenuItem rules      = new JMenuItem("Rules");
         JMenuItem about      = new JMenuItem("About");
-        
-        anew .addActionListener(event -> onNewGameClick());
-        quit .addActionListener(event -> onQuitClick());
-        rules.addActionListener(event -> onRulesClick());
+        */
+
+        quit.addActionListener(event -> onQuitClick());
+        insertCust.addActionListener(event -> onInsertCustomerClick());
+        insertOpt.addActionListener(event -> onInsertOptionClick());
+        insertComp.addActionListener(event -> onInsertComputerClick());
+        viewCust.addActionListener(event -> onViewClick(Record.CUSTOMER));
+        viewOpt.addActionListener(event -> onViewClick(Record.OPTION));
+        viewComp.addActionListener(event -> onViewClick(Record.COMPUTER));
         about.addActionListener(event -> onAboutClick());
 
-        
-        file.add(anew);
-        file.add(quit);
-        help.add(rules);
-        help.add(about);
-        
+        // old code
+        /*
+        anew .addActionListener(event -> onNewGameClick());
+        rules.addActionListener(event -> onRulesClick());
+        */
+
         menubar.add(file);
+        menubar.add(insert);
+        menubar.add(view);
         menubar.add(help);
         setJMenuBar(menubar);
-        
+
+        file.add(quit);
+        insert.add(insertCust);
+        insert.add(insertOpt);
+        insert.add(insertComp);
+        view.add(viewCust);
+        view.add(viewOpt);
+        view.add(viewComp);
+        help.add(about);
+
+        // Old code
+        /*
+        file.add(anew);
+        help.add(rules);
+        */
+
         // ///////////// //////////////////////////////////////////////////////////
-        // T O O L B A R
+        // T O O L B A R 
         // Add a toolbar to the PAGE_START region below the menu
+
+        //THIS SECTION IS COMMENTED OUT FOR NOW !!!!!
+        
+        /*
         JToolBar toolbar = new JToolBar("Nim Controls");
 
         // Add a New Game stock icon
@@ -121,6 +173,7 @@ public class MainWin extends JFrame {
         toolbar.addSeparator();
 
         getContentPane().add(toolbar, BorderLayout.PAGE_START);
+        */
         
         
         // /////////////////////////// ////////////////////////////////////////////
@@ -143,7 +196,70 @@ public class MainWin extends JFrame {
     }
     
     // Listeners
+
+    protected void onQuitClick() // Exit the game
+    {
+        System.exit(0);
+    }  
+
+    protected void onInsertCustomerClick()
+    {
+
+    }
+
+    protected  void onInsertOptionClick()
+    {
+
+    }
+
+    protected  void onInsertComputerClick()
+    {
+        
+    }
+
+    protected void onViewClick(Record record)
+    {
+
+    }
+
+    protected void onAboutClick() // Display About dialog
+    {                
+        JLabel logo = null;
+        try {
+            BufferedImage myPicture = ImageIO.read(new File("128px-Pyramidal_matches.png"));
+            logo = new JLabel(new ImageIcon(myPicture));
+        } catch(IOException e) {
+        }
+        
+        JLabel title = new JLabel("<html>"
+          + "<p><font size=+4>Nim</font></p>"
+          + "<p>Version 1.4J</p>"
+           + "</html>",
+          SwingConstants.CENTER);
+
+        JLabel artists = new JLabel("<html>"
+          + "<br/><p>Copyright 2017-2023 by George F. Rice</p>"
+          + "<p>Licensed under Gnu GPL 3.0</p><br/>"
+          + "<p>Logo by M0tty, licensed under CC BY-SA 3.0</p>"
+          + "<p><font size=-2>https://commons.wikimedia.org/wiki/File:Pyramidal_matches.svg</font></p>"
+          + "<p>Robot by FreePik.com, licensed for personal</p><p>and commercial purposes with attribution</p>"
+          + "<p><font size=-2>https://www.freepik.com/free-vector/grey-robot-silhouettes_714902.htm</font></p>"
+          + "</html>");
+          
+         JOptionPane.showMessageDialog(this, 
+             new Object[]{logo, title, artists},
+             "The Game of Nim",
+             JOptionPane.PLAIN_MESSAGE
+         );
+    }
     
+
+
+
+
+
+
+    /*
     protected void onNewGameClick() {         // Create a new game
         nim = new Nim();
         setSticks();
@@ -172,76 +288,6 @@ public class MainWin extends JFrame {
             "If the computer button is up, it's a two player game. If down, the computer is always Player 2.)";
         JOptionPane.showMessageDialog(this, s, "The Rules of Nim", JOptionPane.PLAIN_MESSAGE);
     }
-    protected void onAboutClick() {                 // Display About dialog
-        JLabel logo = null;
-        try {
-            BufferedImage myPicture = ImageIO.read(new File("128px-Pyramidal_matches.png"));
-            logo = new JLabel(new ImageIcon(myPicture));
-        } catch(IOException e) {
-        }
-        
-        JLabel title = new JLabel("<html>"
-          + "<p><font size=+4>Nim</font></p>"
-          + "<p>Version 1.4J</p>"
-           + "</html>",
-          SwingConstants.CENTER);
-
-        JLabel artists = new JLabel("<html>"
-          + "<br/><p>Copyright 2017-2023 by George F. Rice</p>"
-          + "<p>Licensed under Gnu GPL 3.0</p><br/>"
-          + "<p>Logo by M0tty, licensed under CC BY-SA 3.0</p>"
-          + "<p><font size=-2>https://commons.wikimedia.org/wiki/File:Pyramidal_matches.svg</font></p>"
-          + "<p>Robot by FreePik.com, licensed for personal</p><p>and commercial purposes with attribution</p>"
-          + "<p><font size=-2>https://www.freepik.com/free-vector/grey-robot-silhouettes_714902.htm</font></p>"
-          + "</html>");
-          
-         JOptionPane.showMessageDialog(this, 
-             new Object[]{logo, title, artists},
-             "The Game of Nim",
-             JOptionPane.PLAIN_MESSAGE
-         );
-     }
-
-/*
-    // This is an alternate About dialog using JDialog instead of JOptionPane
-    
-    protected void onAboutClick() {                 // Display About dialog
-        JDialog about = new JDialog();
-        about.setLayout(new FlowLayout());
-        about.setTitle("The Game of Nim");
-        
-        try {
-            BufferedImage myPicture = ImageIO.read(new File("128px-Pyramidal_matches.png"));
-            JLabel logo = new JLabel(new ImageIcon(myPicture));
-            about.add(logo);
-        } catch(IOException e) {
-        }
-        
-        JLabel title = new JLabel("<html>"
-          + "<p><font size=+4>Nim</font></p>"
-          + "</html>");
-        about.add(title);
-
-        JLabel artists = new JLabel("<html>"
-          + "<p>Version 1.4J</p>"
-          + "<p>Copyright 2017-2023 by George F. Rice</p>"
-          + "<p>Licensed under Gnu GPL 3.0</p>"
-          + "<p>Logo by M0tty, licensed under CC BY-SA 3.0</p>"
-          + "<p><font size=-2>https://commons.wikimedia.org/wiki/File:Pyramidal_matches.svg</font></p>"
-          + "<p>Robot by FreePik.com, licensed for personal</p><p>and commercial purposes with attribution</p>"
-          + "<p><font size=-2>https://www.freepik.com/free-vector/grey-robot-silhouettes_714902.htm</font></p>"
-          + "</html>");
-        about.add(artists);
-
-        JButton ok = new JButton("OK");
-        ok.addActionListener(event -> about.setVisible(false));
-        about.add(ok);
-        
-        about.setSize(450,400);
-        about.setVisible(true);
-     }
-*/
-    protected void onQuitClick() {System.exit(0);}   // Exit the game
 
     private void setSticks() {              // Update display, robot move
         // s collects the status message
@@ -284,14 +330,17 @@ public class MainWin extends JFrame {
         button2.setEnabled(nim.sticksLeft() > 1);
         button3.setEnabled(nim.sticksLeft() > 2);
     }
+    */
     
+    /*
     private Nim nim;
-    
     private JLabel sticks;                  // Display of sticks on game board
     private JLabel msg;                     // Status message display
     private JButton button1;                // Button to select 1 stick
     private JButton button2;                // Button to select 2 sticks
     private JButton button3;                // Button to select 3 sticks
     private JToggleButton computerPlayer;   // Button to enable robot
+    */
 
+    
 }
