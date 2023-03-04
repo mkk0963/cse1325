@@ -1,3 +1,5 @@
+package gui;
+
 import javax.swing.JFrame;           // for main window
 import javax.swing.JOptionPane;      // for standard dialogs
 // import javax.swing.JDialog;          // for custom dialogs (for alternate About dialog)
