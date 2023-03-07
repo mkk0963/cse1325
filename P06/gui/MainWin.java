@@ -8,25 +8,31 @@ import javax.swing.JMenu;            // menu selection that offers another menu
 import javax.swing.JMenuItem;        // menu selection that does something
 import javax.swing.JToolBar;         // row of buttons under the menu
 import javax.swing.JButton;          // regular button
-import javax.swing.JToggleButton;    // 2-state button
-import javax.swing.BorderFactory;    // manufacturers Border objects around buttons
+import javax.swing.JComboBox;
+//import javax.swing.JToggleButton;    // 2-state button
+//import javax.swing.BorderFactory;    // manufacturers Border objects around buttons
 import javax.swing.Box;              // to create toolbar spacer
-import javax.swing.UIManager;        // to access default icons
+//import javax.swing.UIManager;        // to access default icons
 import javax.swing.JLabel;           // text or image holder
 import javax.swing.ImageIcon;        // holds a custom icon
 import javax.swing.SwingConstants;   // useful values for Swing method calls
 
-import javax.imageio.ImageIO;        // loads an image from a file
+//import javax.imageio.ImageIO;        // loads an image from a file
 
-import java.io.File;                 // opens a file
-import java.io.IOException;          // reports an error reading from a file
+//import java.io.File;                 // opens a file
+//import java.io.IOException;          // reports an error reading from a file
 
 import java.awt.BorderLayout;        // layout manager for main window
-import java.awt.FlowLayout;          // layout manager for About dialog
+//import java.awt.FlowLayout;          // layout manager for About dialog
 
-import java.awt.Color;               // the color of widgets, text, or borders
+//import java.awt.Color;               // the color of widgets, text, or borders
 import java.awt.Font;                // rich text in a JLabel or similar widget
-import java.awt.image.BufferedImage; // holds an image loaded from a file
+//import java.awt.image.BufferedImage; // holds an image loaded from a file
+
+import store.Customer;
+import store.Option;
+import store.Computer;
+import store.Store;
 
 enum Record
 {
@@ -54,25 +60,17 @@ public class MainWin extends JFrame
         JMenuItem quit = new JMenuItem("Quit");
 
         JMenu insert = new JMenu("Insert");
-        JMenuItem insertCust  = new JMenuItem("Insert Customer");
-        JMenuItem  insertOpt = new JMenuItem("Insert Option");
-        JMenuItem insertComp = new JMenuItem("Insert Computer");
+        JMenuItem insertCust  = new JMenuItem("Customer");
+        JMenuItem  insertOpt = new JMenuItem("Option");
+        JMenuItem insertComp = new JMenuItem("Computer");
 
         JMenu view = new JMenu("View");
-        JMenuItem viewCust = new JMenuItem("View Customers");
-        JMenuItem viewOpt = new JMenuItem("View Options");
-        JMenuItem viewComp = new JMenuItem("View Computer");
+        JMenuItem viewCust = new JMenuItem("Customer");
+        JMenuItem viewOpt = new JMenuItem("Options");
+        JMenuItem viewComp = new JMenuItem("Computer");
 
         JMenu help = new JMenu("Help");
         JMenuItem about = new JMenuItem("About");
-
-        // old code
-        /*
-        JMenuItem anew       = new JMenuItem("New Game");
-        JMenu     help       = new JMenu("Help");
-        JMenuItem rules      = new JMenuItem("Rules");
-        JMenuItem about      = new JMenuItem("About");
-        */
 
         quit.addActionListener(event -> onQuitClick());
         insertCust.addActionListener(event -> onInsertCustomerClick());
@@ -82,12 +80,6 @@ public class MainWin extends JFrame
         viewOpt.addActionListener(event -> onViewClick(Record.OPTION));
         viewComp.addActionListener(event -> onViewClick(Record.COMPUTER));
         about.addActionListener(event -> onAboutClick());
-
-        // old code
-        /*
-        anew .addActionListener(event -> onNewGameClick());
-        rules.addActionListener(event -> onRulesClick());
-        */
 
         menubar.add(file);
         menubar.add(insert);
@@ -104,95 +96,66 @@ public class MainWin extends JFrame
         view.add(viewComp);
         help.add(about);
 
-        // Old code
-        /*
-        file.add(anew);
-        help.add(rules);
-        */
-
         // ///////////// //////////////////////////////////////////////////////////
         // T O O L B A R 
         // Add a toolbar to the PAGE_START region below the menu
-
-        //THIS SECTION IS COMMENTED OUT FOR NOW !!!!!
         
-        /*
-        JToolBar toolbar = new JToolBar("Nim Controls");
+        JToolBar toolbar = new JToolBar("ELSA");
 
-        // Add a New Game stock icon
-        JButton anewB  = new JButton(UIManager.getIcon("FileView.fileIcon"));
-          anewB.setActionCommand("New Game");
-          anewB.setToolTipText("Create a new game, discarding any in progress");
-          anewB.setBorder(null);
-          toolbar.add(anewB);
-          anewB.addActionListener(event -> onNewGameClick());
-        
-        // A "horizontal strut" is just a space of the specified pixel width
+        JButton customer = new JButton(new ImageIcon("gui/resources/add_customer.png"));
+        customer.setActionCommand("Insert Customer");
+        customer.setToolTipText("Provide a name and email for a new customer");
+        customer.setBorder(null);
+        toolbar.add(customer);
+        customer.addActionListener(event -> onInsertCustomerClick());
+
+        JButton option = new JButton(new ImageIcon("gui/resources/add_option.png"));
+        option.setActionCommand("Insert Option");
+        option.setToolTipText("Provide a name and cost for a new option");
+        toolbar.add(option);
+        option.addActionListener(event -> onInsertOptionClick());
+
+        JButton computer = new JButton(new ImageIcon("gui/resources/add_computer.png"));
+        computer.setActionCommand("Insert Computer");
+        computer.setToolTipText("Insert a new Computer");
+        toolbar.add(computer);
+        computer.addActionListener(event -> onInsertComputerClick());
+
         toolbar.add(Box.createHorizontalStrut(25));
-        
-        // Create the 3 buttons using the icons provided
-        ImageIcon ii = new ImageIcon("button1.png");
-        button1  = new JButton(new ImageIcon("button1.png"));
-          button1.setActionCommand("Select one stick");
-          button1.setToolTipText("Select one stick");
-          toolbar.add(button1);
-          button1.addActionListener(event -> onButtonClick(1));
 
-        button2    = new JButton(new ImageIcon("button2.png"));
-          button2.setActionCommand("Select two sticks");
-          button2.setToolTipText("Select two sticks");
-          toolbar.add(button2);
-          button2.addActionListener(event -> onButtonClick(2));
+        JButton vCustomer = new JButton(new ImageIcon("gui/resources/view_customers.png"));
+        vCustomer.setActionCommand("View Customer");
+        vCustomer.setToolTipText("View the list of customers");
+        toolbar.add(vCustomer);
+        vCustomer.addActionListener(event -> onViewClick(Record.CUSTOMER));
 
-        button3 = new JButton(new ImageIcon("button3.png"));
-          button3.setActionCommand("Select three sticks");
-          button3.setToolTipText("Select three sticks");
-          toolbar.add(button3);
-          button3.addActionListener(event -> onButtonClick(3));
-        
-        toolbar.add(Box.createHorizontalStrut(25));
-        
-        // Create a toggle button to enable or disable the computer player
-        computerPlayer = new JToggleButton(new ImageIcon("freepik_robot.png"));
-          computerPlayer.setActionCommand("Enable computer player");
-          computerPlayer.setToolTipText("Enable computer to be Player 2");
-          computerPlayer.setBorder(null);
-          toolbar.add(computerPlayer);
-          computerPlayer.addActionListener(event -> onComputerPlayerClick());
+        JButton vOption = new JButton(new ImageIcon("gui/resources/view_options.png"));
+        vOption.setActionCommand("View Option");
+        vOption.setToolTipText("View the list of options");
+        vOption.setBorder(null);
+        toolbar.add(vOption);
+        vOption.addActionListener(event -> onViewClick(Record.OPTION));
 
-        // "Horizontal glue" expands as much as possible, pushing the "X" to the right
-        toolbar.add(Box.createHorizontalGlue());
-        
-        // Create a custom Quit button (not available in Swing stock icons)
-        JButton quitB  = new JButton("X");
-          quitB.setActionCommand("Quit");
-          quitB.setToolTipText("Exit game");
-          quitB.setBorder(null);
-          toolbar.add(quitB);
-          quitB.addActionListener(event -> onQuitClick());
+        JButton vComputer = new JButton(new ImageIcon("gui/resources/view_computers.png"));
+        vComputer.setActionCommand("View Computers");
+        vComputer.setToolTipText("View the list of computers");
+        vComputer.setBorder(null);
+        toolbar.add(vComputer);
+        vComputer.addActionListener(event -> onViewClick(Record.COMPUTER));
         toolbar.addSeparator();
 
         getContentPane().add(toolbar, BorderLayout.PAGE_START);
-        */
-        
-        
-        // /////////////////////////// ////////////////////////////////////////////
-        // S T I C K S   D I S P L A Y
-        // Provide a text entry box to show the remaining sticks
-        sticks = new JLabel();
-        sticks.setFont(new Font("SansSerif", Font.BOLD, 18));
-        add(sticks, BorderLayout.CENTER);
 
-        // S T A T U S   B A R   D I S P L A Y ////////////////////////////////////
-        // Provide a status bar for game messages
-        msg = new JLabel();
-        add(msg, BorderLayout.PAGE_END);
+        // /////////////////////////// ////////////////////////////////////////////
+        // D I S P L A Y
+        // Provide a text entry box to show the remaining computers
+        display = new JLabel();
+        display.setFont(new Font("SansSerif", Font.BOLD, 18));
+        add(display, BorderLayout.CENTER);
         
         // Make everything in the JFrame visible
         setVisible(true);
-        
-        // Start a new game
-        onNewGameClick();
+        store = new Store("KIMEX 243");
     }
     
     // Listeners
@@ -204,143 +167,136 @@ public class MainWin extends JFrame
 
     protected void onInsertCustomerClick()
     {
-
+        
+        try
+        {
+            String name = JOptionPane.showInputDialog(this, "Customer name", "New Customer", JOptionPane.QUESTION_MESSAGE);
+            String email = JOptionPane.showInputDialog(this, "Customer email", "New Customer", JOptionPane.QUESTION_MESSAGE);
+            store.add(new Customer(name, email));
+        }
+        catch(Exception email)
+        {
+        }
     }
 
     protected  void onInsertOptionClick()
     {
-
+        try
+        {
+            String name = JOptionPane.showInputDialog(this, "Enter Option", "New Option", JOptionPane.QUESTION_MESSAGE);
+            String cost = JOptionPane.showInputDialog(this, "Enter Cost", "New Option", JOptionPane.QUESTION_MESSAGE);
+            
+            long clong = 0;
+            double cdouble = Double.parseDouble(cost);
+            clong = (long)(cdouble * 100);
+            store.add(new Option(name, clong));
+        }
+        catch(Exception e)
+        {
+        }
     }
 
     protected  void onInsertComputerClick()
     {
-        
+        String name = JOptionPane.showInputDialog(this, "Computer name", "New Computer", JOptionPane.QUESTION_MESSAGE);
+        String model = JOptionPane.showInputDialog(this, "Computer Model", "New Computer", JOptionPane.QUESTION_MESSAGE);
+
+        Object[] options = store.options();
+        JComboBox<Object> comboBox = new JComboBox<>(options);
+
+        for (Object o : options) 
+        {
+            Option i = (Option) o;
+            comboBox.addItem(i);
+        }
+
+        Object[] message = {"Select options for the computer:",comboBox};
+
+        JFrame confirmation = new JFrame();
+        int result = JOptionPane.showConfirmDialog(confirmation, message, "Options", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            Computer computer = new Computer(name, model);
+            Option option = (Option) comboBox.getSelectedItem();
+            computer.addOption(option);
+            store.add(computer);
+        }
     }
 
     protected void onViewClick(Record record)
     {
-
+        
+        String header = "";
+        StringBuilder string = new StringBuilder();  
+        switch(record)
+        {
+            case CUSTOMER:
+                header = "Customers";
+                for(var i : store.customers())
+                {
+                    string.append(i.toString());
+                    
+                }
+                break;
+            case OPTION:
+                header = "Options";
+                for(var i : store.options())
+                {
+                    string.append(i.toString());
+                }
+                break;
+            case COMPUTER:
+                header = "Computers";
+                for(var i : store.computers())
+                {
+                    string.append(i.toString());
+                }
+                break;
+            default:
+                display.setText("Invalid Displays Type: " + display);
+        }
+        display.setText("<html><p><font size=+4>" + header +
+                        "</font></p></br><ol><font size=+2><li>" + string.toString() +
+                        "</li><li></li></font></ol></html>"); 
     }
 
     protected void onAboutClick() // Display About dialog
-    {                
+    {    
+        /*            
         JLabel logo = null;
         try {
             BufferedImage myPicture = ImageIO.read(new File("128px-Pyramidal_matches.png"));
             logo = new JLabel(new ImageIcon(myPicture));
         } catch(IOException e) {
-        }
+        }*/
         
         JLabel title = new JLabel("<html>"
-          + "<p><font size=+4>Nim</font></p>"
-          + "<p>Version 1.4J</p>"
-           + "</html>",
+        + "<p><font size=+4>ELSA</font></p>"
+        + "<p><font size=+4>Exceptional Laptops and Supercomputers Always</font></p>"
+        + "<p>Version 0.2</p>"
+        + "</html>",
           SwingConstants.CENTER);
 
         JLabel artists = new JLabel("<html>"
-          + "<br/><p>Copyright 2017-2023 by George F. Rice</p>"
-          + "<p>Licensed under Gnu GPL 3.0</p><br/>"
-          + "<p>Logo by M0tty, licensed under CC BY-SA 3.0</p>"
-          + "<p><font size=-2>https://commons.wikimedia.org/wiki/File:Pyramidal_matches.svg</font></p>"
-          + "<p>Robot by FreePik.com, licensed for personal</p><p>and commercial purposes with attribution</p>"
-          + "<p><font size=-2>https://www.freepik.com/free-vector/grey-robot-silhouettes_714902.htm</font></p>"
-          + "</html>");
+        + "<br/><p>Copyright 2017-2023 by George F. Rice</p>"
+        + "<p>Licensed under Gnu GPL 3.0</p><br/>"
+        + "<p><font size=-2>Add Customer icon based on work by Dreamstate per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icon/user_3114957</font></p>"
+        + "<p><font size=-2>View Customers icon based on work by Ilham Fitrotul Hayat per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icon/group_694642</font></p>"
+        + "<p><font size=-2>Add Option icon based on work by Freepik per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icon/quantum-computing_4103999</font></p>"
+        + "<p><font size=-2>View Options icon based on work by Freepik per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icon/network_9094450</font></p>"
+        + "<p><font size=-2>Add Computer icon based on work by Freepik per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icon/laptop_689396</font></p>"
+        + "<p><font size=-2>View Computers icon based on work by Futuer per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icon/computer-networks_9672993</font></p>"
+        + "</html>");
           
          JOptionPane.showMessageDialog(this, 
-             new Object[]{logo, title, artists},
-             "The Game of Nim",
+             new Object[]{title, artists},
+             "ELSA",
              JOptionPane.PLAIN_MESSAGE
          );
     }
-    
-
-
-
-
-
-
-    /*
-    protected void onNewGameClick() {         // Create a new game
-        nim = new Nim();
-        setSticks();
-        msg.setFont(new JLabel().getFont());    // Reset to default font
-    }
-    
-    protected void onButtonClick(int button) {  // Select 1, 2, or 3 sticks from pile
-        try {
-            // Catch the "impossible" out of sticks exception
-            nim.takeSticks(button);
-            setSticks();
-        } catch(Exception e) {
-            sticks.setText("FAIL: " + e.getMessage() + ", start new game");
-        }
-    }
-            
-    protected void onComputerPlayerClick() {   // Enable / disable computer player
-        setSticks();
-        // Java Swing requires action to visually indicate enabled / disabled button
-        computerPlayer.setBorder(computerPlayer.isSelected() ? BorderFactory.createLineBorder(Color.black) : null);
-    }
-    protected void onRulesClick() {             // Show the rules
-        String s = "The Rules of Nim\n\nCopyright 2017-2023 by George F. Rice - CC BY 4.0\n\n" +
-            "The two players alternate taking 1 to 3 sticks from the pile.\n" +
-            "The goal is to force your opponent to take the last stick (called misère rules).\n" +
-            "If the computer button is up, it's a two player game. If down, the computer is always Player 2.)";
-        JOptionPane.showMessageDialog(this, s, "The Rules of Nim", JOptionPane.PLAIN_MESSAGE);
-    }
-
-    private void setSticks() {              // Update display, robot move
-        // s collects the status message
-        String s = "";
-        
-        // If the robot is enabled and it's their turn, move the robot
-        if(nim.sticksLeft() > 0) {
-            if(computerPlayer.isSelected() && nim.currentPlayer() == 2) {
-                int move = 1;
-                try {
-                    move = nim.optimalMove();
-                } catch(Exception e) {
-                    System.err.println("Invalid optimal move: " + e.getMessage());
-                }
-                s += "Robot plays " + move + ", ";
-                nim.takeSticks(move);
-            }
-        }
-        
-        // Report who's turn it is, or (if all sticks gone) who won
-        
-        if (nim.sticksLeft() > 0) {
-            s += "Player " + nim.currentPlayer() + "'s turn";
-        } else {
-            s += "Player " + nim.currentPlayer() +  " wins!";
-            msg.setFont(new Font("SansSerif", Font.BOLD, 18));
-        }
-        
-        // Display the collected status on the status bar
-        msg.setText(s);
-
-        // Update the visual display of sticks
-        s = "";
-        for(int i=0; i<nim.sticksLeft(); ++i) s += ("| ");
-        s += "  (" + (nim.sticksLeft()) + " sticks)";
-        sticks.setText(s);
-
-        // Set sensitivity of the human stick selectors so user can't make an illegal move
-        button1.setEnabled(nim.sticksLeft() > 0);
-        button2.setEnabled(nim.sticksLeft() > 1);
-        button3.setEnabled(nim.sticksLeft() > 2);
-    }
-    */
-    
-    /*
-    private Nim nim;
-    private JLabel sticks;                  // Display of sticks on game board
-    private JLabel msg;                     // Status message display
-    private JButton button1;                // Button to select 1 stick
-    private JButton button2;                // Button to select 2 sticks
-    private JButton button3;                // Button to select 3 sticks
-    private JToggleButton computerPlayer;   // Button to enable robot
-    */
-
-    
 }
