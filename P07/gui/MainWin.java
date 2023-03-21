@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.JFrame;           // for main window
 import javax.swing.JOptionPane;      // for standard dialogs
+import javax.swing.JPanel;
 // import javax.swing.JDialog;          // for custom dialogs (for alternate About dialog)
 import javax.swing.JMenuBar;         // row of menu selections
 import javax.swing.JMenu;            // menu selection that offers another menu
@@ -9,21 +10,30 @@ import javax.swing.JMenuItem;        // menu selection that does something
 import javax.swing.JToolBar;         // row of buttons under the menu
 import javax.swing.JButton;          // regular button
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.imageio.ImageIO;
 //import javax.swing.JToggleButton;    // 2-state button
 //import javax.swing.BorderFactory;    // manufacturers Border objects around buttons
 import javax.swing.Box;              // to create toolbar spacer
+import javax.swing.BoxLayout;
 //import javax.swing.UIManager;        // to access default icons
 import javax.swing.JLabel;           // text or image holder
 import javax.swing.ImageIcon;        // holds a custom icon
-import javax.swing.SwingConstants;   // useful values for Swing method calls
+//import javax.swing.SwingConstants;   // useful values for Swing method calls
 
 
 //import javax.imageio.ImageIO;        // loads an image from a file
 import java.io.File;                 // opens a file
+import java.awt.BasicStroke;
 //import java.io.IOException;          // reports an error reading from a file 
 import java.awt.BorderLayout;        // layout manager for main window
+import java.awt.Color;
 //import java.awt.FlowLayout;        // layout manager for About dialog
-
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 //import java.awt.Color;               // the color of widgets, text, or borders
 import java.awt.Font;                // rich text in a JLabel or similar widget
 //import java.awt.image.BufferedImage; // holds an image loaded from a file
@@ -41,7 +51,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedWriter;
-import java.io.FileWriter; 
+import java.io.FileWriter;
+import java.io.IOException; 
 
 enum Record
 {
@@ -240,8 +251,8 @@ public class MainWin extends JFrame
             try (BufferedReader br = new BufferedReader(new FileReader(filename)))
             {
                 store = new Store(br);
-                MainWin newWindow = new MainWin(store.name());
-                newWindow.setVisible(true);
+                //MainWin newWindow = new MainWin(store.name());
+                //newWindow.setVisible(true);
             }
             catch (Exception e)
             {
@@ -464,30 +475,89 @@ public class MainWin extends JFrame
                         "</li><li></li></font></ol></html>"); */
     }
 
+    public class Canvas extends JPanel
+    {
+        private BufferedImage image;
+        public Canvas()
+        {
+            setBackground(Color.WHITE);
+            String imageFile = "gui/resources/buy.png";
+
+            try 
+            {
+                image = ImageIO.read(new File(imageFile));
+            } 
+            catch (IOException e) 
+            {
+                throw new RuntimeException("Unable to load image from " + imageFile, e);
+            }
+        }
+        public Dimension getPreferredSize()
+        {
+            return new Dimension(250,200);
+        }
+
+        @Override
+        public void paintComponent(Graphics graphics)
+        {
+            super.paintComponent(graphics);
+            Graphics2D g = (Graphics2D) graphics.create();
+            g.setStroke(new  BasicStroke(3));
+            g.drawString("ELSA, Cheap Computers!", 25, 20);
+
+            int x = (getBounds().width  - image.getWidth())  / 2;
+            int y = (getBounds().height - image.getHeight()) / 2;
+            g.drawImage(image, x, y, this);
+
+            Rectangle size = getBounds();                  // get canvas size
+            final int oneThirdX  = 333 * size.width  / 1000;
+            final int twoThirdsX = 666 * size.width  / 1000;
+            final int halfX      = 500 * size.width  / 1000;
+            final int oneThirdY  = 333 * size.height / 1000;
+            final int twoThirdsY = 666 * size.height / 1000;
+            //final int halfY      = 500 * size.height / 1000;
+
+            g.setColor(Color.RED);                   // red with constant
+            g.drawLine(oneThirdX, twoThirdsY, twoThirdsX, twoThirdsY); // --
+        
+            g.setColor(new Color(0, 255, 0));        // green with int
+            g.drawLine(oneThirdX, twoThirdsY,  halfX, oneThirdY);      // /
+        
+            g.setColor(new Color(0.0f, 0.0f, 1.0f)); // blue with double
+            g.drawLine(twoThirdsX, twoThirdsY, halfX, oneThirdY);      // 
+                
+        }
+    }
+
     protected void onAboutClick() // Display About dialog
     {    
-        /*            
-        JLabel logo = null;
-        try {
-            BufferedImage myPicture = ImageIO.read(new File("128px-Pyramidal_matches.png"));
-            logo = new JLabel(new ImageIcon(myPicture));
-        } catch(IOException e) {
-        }*/
-        
+
+        JDialog about = new JDialog(this, "Elsa");
+        about.setLayout(new BoxLayout(about.getContentPane(), BoxLayout.PAGE_AXIS));
+        Canvas logo = new Canvas();
+        logo.setAlignmentX(Canvas.LEFT_ALIGNMENT);
+        about.add(logo);
+
+        JPanel text = new JPanel();
+        text.setLayout(new BoxLayout(text, BoxLayout.PAGE_AXIS));
+
         JLabel title = new JLabel("<html>"
           + "<p><font size=+4>ELSA</font></p>"
-          + "</html>",
-            SwingConstants.CENTER);
+          + "</html>");
+          //,SwingConstants.CENTER);
+        text.add(title);
 
         JLabel subtitle = new JLabel("<html>"
           + "<p>Exceptional Laptops and Supercomputers Always</p>"
-          + "</html>",
-            SwingConstants.CENTER);
+          + "</html>");
+          //,SwingConstants.CENTER);
+        text.add(subtitle);
 
         JLabel version = new JLabel("<html>"
           + "<p>Version 0.3</p>"
-          + "</html>",
-            SwingConstants.CENTER);
+          + "</html>");
+          //,SwingConstants.CENTER);
+        text.add(version);
 
         JLabel artists = new JLabel("<html>"
         + "<br/><p>Copyright 2023 by Marcia K. Kimenyembo</p>"
@@ -524,7 +594,20 @@ public class MainWin extends JFrame
         + "<p><font size=-2>https://www.flaticon.com/free-icons/save</font></p>"
 
         + "</html>");
+        text.add(artists);
+        about.add(text);
+
+        JPanel panel = new JPanel();
+        JButton ok = new JButton("OK");
+        ok.addActionListener(event -> about.setVisible(false));
+        panel.add(ok);
+        about.add(panel);
+
+        about.add(Box.createVerticalStrut(10));
+
+        about.pack();
+        about.setVisible(true);
           
-         JOptionPane.showMessageDialog(this, new Object[]{title, subtitle, version, artists},"ELSA", JOptionPane.PLAIN_MESSAGE);
+        //JOptionPane.showMessageDialog(this, new Object[]{title, subtitle, version, artists},"ELSA", JOptionPane.PLAIN_MESSAGE);
     }
 }
