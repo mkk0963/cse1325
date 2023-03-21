@@ -17,13 +17,12 @@ import javax.swing.JLabel;           // text or image holder
 import javax.swing.ImageIcon;        // holds a custom icon
 import javax.swing.SwingConstants;   // useful values for Swing method calls
 
+
 //import javax.imageio.ImageIO;        // loads an image from a file
-
-//import java.io.File;                 // opens a file
-//import java.io.IOException;          // reports an error reading from a file
-
+import java.io.File;                 // opens a file
+//import java.io.IOException;          // reports an error reading from a file 
 import java.awt.BorderLayout;        // layout manager for main window
-//import java.awt.FlowLayout;          // layout manager for About dialog
+//import java.awt.FlowLayout;        // layout manager for About dialog
 
 //import java.awt.Color;               // the color of widgets, text, or borders
 import java.awt.Font;                // rich text in a JLabel or similar widget
@@ -32,7 +31,17 @@ import java.awt.Font;                // rich text in a JLabel or similar widget
 import store.Customer;
 import store.Option;
 import store.Computer;
+//import store.Order;
 import store.Store;
+
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter; 
 
 enum Record
 {
@@ -43,12 +52,13 @@ public class MainWin extends JFrame
 {
     private Store store;
     private JLabel display;
+    private File filename;
 
     public MainWin(String title) 
     {
         super(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 200);
+        setSize(650, 300);
         
         // /////// ////////////////////////////////////////////////////////////////
         // M E N U
@@ -57,6 +67,10 @@ public class MainWin extends JFrame
         JMenuBar menubar = new JMenuBar();
 
         JMenu file = new JMenu("File");
+        JMenuItem newWin = new JMenuItem("New");
+        JMenuItem open = new JMenuItem("Open");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem saveAs = new JMenuItem("Save As");
         JMenuItem quit = new JMenuItem("Quit");
 
         JMenu insert = new JMenu("Insert");
@@ -72,13 +86,20 @@ public class MainWin extends JFrame
         JMenu help = new JMenu("Help");
         JMenuItem about = new JMenuItem("About");
 
+        newWin.addActionListener(event -> onNewClick());
+        open.addActionListener(event -> onOpenClick());
+        save.addActionListener(event -> onSaveClick());
+        saveAs.addActionListener(event -> onSaveAsClick());
         quit.addActionListener(event -> onQuitClick());
+
         insertCust.addActionListener(event -> onInsertCustomerClick());
         insertOpt.addActionListener(event -> onInsertOptionClick());
         insertComp.addActionListener(event -> onInsertComputerClick());
+
         viewCust.addActionListener(event -> onViewClick(Record.CUSTOMER));
         viewOpt.addActionListener(event -> onViewClick(Record.OPTION));
         viewComp.addActionListener(event -> onViewClick(Record.COMPUTER));
+
         about.addActionListener(event -> onAboutClick());
 
         menubar.add(file);
@@ -87,6 +108,10 @@ public class MainWin extends JFrame
         menubar.add(help);
         setJMenuBar(menubar);
 
+        file.add(newWin);
+        file.add(open);
+        file.add(save);
+        file.add(saveAs);
         file.add(quit);
         insert.add(insertCust);
         insert.add(insertOpt);
@@ -102,10 +127,38 @@ public class MainWin extends JFrame
         
         JToolBar toolbar = new JToolBar("ELSA");
 
+        JButton newButton = new JButton(new ImageIcon("gui/resources/new.png")); // add image
+        newButton.setActionCommand("New Store");
+        newButton.setToolTipText("New Store");
+        toolbar.add(newButton);
+        newButton.addActionListener(event -> onNewClick());
+
+        toolbar.add(Box.createHorizontalStrut(50));
+        
+
+        JButton openButton = new JButton(new ImageIcon("gui/resources/open.png")); // add image
+        openButton.setActionCommand("Open a specific file");
+        openButton.setToolTipText("Open a specific file");
+        toolbar.add(openButton);
+        openButton.addActionListener(event -> onOpenClick());
+
+        JButton saveButton = new JButton(new ImageIcon("gui/resources/save.png")); // add image
+        saveButton.setActionCommand("Save to a default file");
+        saveButton.setToolTipText("Save to a default file");
+        toolbar.add(saveButton);
+        saveButton.addActionListener(event -> onSaveClick());
+
+        JButton saveAsButton = new JButton(new ImageIcon("gui/resources/save_as.png")); // add image
+        saveAsButton.setActionCommand("Save to a specific file with a name");
+        saveAsButton.setToolTipText("Save to a specific file with a name");
+        toolbar.add(saveAsButton);
+        saveAsButton.addActionListener(event -> onSaveAsClick());
+
+        toolbar.add(Box.createHorizontalStrut(25));
+
         JButton customer = new JButton(new ImageIcon("gui/resources/add_customer.png"));
         customer.setActionCommand("Insert Customer");
         customer.setToolTipText("Provide a name and email for a new customer");
-        customer.setBorder(null);
         toolbar.add(customer);
         customer.addActionListener(event -> onInsertCustomerClick());
 
@@ -132,14 +185,12 @@ public class MainWin extends JFrame
         JButton vOption = new JButton(new ImageIcon("gui/resources/view_options.png"));
         vOption.setActionCommand("View Option");
         vOption.setToolTipText("View the list of options");
-        vOption.setBorder(null);
         toolbar.add(vOption);
         vOption.addActionListener(event -> onViewClick(Record.OPTION));
 
         JButton vComputer = new JButton(new ImageIcon("gui/resources/view_computers.png"));
         vComputer.setActionCommand("View Computers");
         vComputer.setToolTipText("View the list of computers");
-        vComputer.setBorder(null);
         toolbar.add(vComputer);
         vComputer.addActionListener(event -> onViewClick(Record.COMPUTER));
         toolbar.addSeparator();
@@ -150,6 +201,7 @@ public class MainWin extends JFrame
         // D I S P L A Y
         // Provide a text entry box to show the remaining computers
         display = new JLabel();
+        display.setVerticalAlignment(JLabel.TOP);
         display.setFont(new Font("SansSerif", Font.BOLD, 18));
         add(display, BorderLayout.CENTER);
         
@@ -162,22 +214,71 @@ public class MainWin extends JFrame
 
     protected void onNewClick()
     {
-
+        int newStore = JOptionPane.showConfirmDialog(this, "All saved data will be wiped, please confirm", "Confirm Create New Store", JOptionPane.YES_NO_OPTION);
+        if(newStore == JOptionPane.YES_OPTION)
+        {
+            String name = JOptionPane.showInputDialog(this, "Store Name", "Input", JOptionPane.QUESTION_MESSAGE);
+            store = new Store(name);
+            MainWin newWindow = new MainWin(store.name());
+            newWindow.setVisible(true);
+        }
+       
     }
 
     protected void onOpenClick()
     {
+        final JFileChooser fc = new JFileChooser(filename);
+        FileFilter elsaFiles = new FileNameExtensionFilter("Elsa files", "elsa");
+        fc.addChoosableFileFilter(elsaFiles);
+        fc.setFileFilter(elsaFiles);
 
+        int result = fc.showOpenDialog(this);
+        if(result == JFileChooser.APPROVE_OPTION)
+        {
+            filename = fc.getSelectedFile();
+
+            try (BufferedReader br = new BufferedReader(new FileReader(filename)))
+            {
+                store = new Store(br);
+                MainWin newWindow = new MainWin(store.name());
+                newWindow.setVisible(true);
+            }
+            catch (Exception e)
+            {
+                JOptionPane.showMessageDialog(this, "Unable to open/load " + filename + '\n' + e, "Failed", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     protected void onSaveClick()
     {
-
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(filename)))
+        {
+            store.save(bw);
+        }
+        catch (Exception e)
+        {
+            JOptionPane.showMessageDialog(this, "Unable to open/write " + filename + '\n' + e, "Failed", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     protected void onSaveAsClick()
     {
-        
+        final JFileChooser fc = new JFileChooser(filename);
+        FileFilter elsaFiles = new FileNameExtensionFilter("Elsa files", "elsa");
+        fc.addChoosableFileFilter(elsaFiles);
+        fc.setFileFilter(elsaFiles);
+
+        int result = fc.showSaveDialog(this);
+        if(result == JFileChooser.APPROVE_OPTION)
+        {
+            filename = fc.getSelectedFile();
+            if(!filename.getAbsolutePath().endsWith(".elsa"))
+            {
+                filename = new File(filename.getAbsolutePath() + ".elsa");
+            }
+            onSaveClick();
+        }
     }
 
     protected void onQuitClick() // Exit the game
@@ -187,21 +288,43 @@ public class MainWin extends JFrame
 
     protected void onInsertCustomerClick()
     {
-        
         try
         {
             String name = JOptionPane.showInputDialog(this, "Customer name", "New Customer", JOptionPane.QUESTION_MESSAGE);
             String email = JOptionPane.showInputDialog(this, "Customer email", "New Customer", JOptionPane.QUESTION_MESSAGE);
             store.add(new Customer(name, email));
+            onViewClick(Record.CUSTOMER);
         }
-        catch(Exception email)
+        catch(NullPointerException e) 
         {
+
+        }
+        catch(Exception e) 
+        {
+            JOptionPane.showMessageDialog(this, e,"Customer Not Created", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     protected  void onInsertOptionClick()
     {
-        try
+        try 
+        { 
+            store.add(new Option(JOptionPane.showInputDialog(this, "Option name", "New Option", JOptionPane.QUESTION_MESSAGE),
+                (long) (100.0 * Double.parseDouble(JOptionPane.showInputDialog(this, "Option cost", "New Option", JOptionPane.QUESTION_MESSAGE)))));
+
+            onViewClick(Record.OPTION);
+        } 
+        catch(NullPointerException e) 
+        {
+
+        } 
+        catch(Exception e) 
+        {
+            JOptionPane.showMessageDialog(this, e, 
+                "Customer Not Created", JOptionPane.ERROR_MESSAGE);
+        }
+
+        /*try
         {
             String name = JOptionPane.showInputDialog(this, "Enter Option", "New Option", JOptionPane.QUESTION_MESSAGE);
             String cost = JOptionPane.showInputDialog(this, "Enter Cost", "New Option", JOptionPane.QUESTION_MESSAGE);
@@ -213,12 +336,44 @@ public class MainWin extends JFrame
         }
         catch(Exception e)
         {
-        }
+        }*/
     }
 
     protected  void onInsertComputerClick()
     {
-        String name = JOptionPane.showInputDialog(this, "Computer name", "New Computer", JOptionPane.QUESTION_MESSAGE);
+        try 
+        { 
+            Computer c = new Computer(JOptionPane.showInputDialog(this, "Computer name", "New Computer", JOptionPane.QUESTION_MESSAGE),
+                JOptionPane.showInputDialog(this, "Computer model", "New Computer", JOptionPane.QUESTION_MESSAGE));
+
+            JComboBox<Object> cb = new JComboBox<>(store.options());
+            int optionsAdded = 0; // Don't add computers with no options
+
+            while(true) 
+            {
+                int button = JOptionPane.showConfirmDialog(this, cb, "Another Option?", JOptionPane.YES_NO_OPTION);
+
+                if(button != JOptionPane.YES_OPTION) break;
+                c.addOption((Option) cb.getSelectedItem());
+                ++optionsAdded;
+            }
+
+            if(optionsAdded > 0) 
+            {
+                store.add(c);
+                onViewClick(Record.COMPUTER);
+            }
+        } 
+        catch(NullPointerException e) 
+        {
+
+        } 
+        catch(Exception e) 
+        {
+            JOptionPane.showMessageDialog(this, e, "Computer Not Created", JOptionPane.ERROR_MESSAGE);
+        }    
+
+        /*String name = JOptionPane.showInputDialog(this, "Computer name", "New Computer", JOptionPane.QUESTION_MESSAGE);
         String model = JOptionPane.showInputDialog(this, "Computer Model", "New Computer", JOptionPane.QUESTION_MESSAGE);
 
         Object[] options = store.options();
@@ -239,13 +394,43 @@ public class MainWin extends JFrame
             Option option = (Option) comboBox.getSelectedItem();
             computer.addOption(option);
             store.add(computer);
-        }
+        }*/
     }
 
     protected void onViewClick(Record record)
     {
-        
-        String header = "";
+        String header = null;
+        Object[] list = null;
+
+        if(record == Record.CUSTOMER) 
+        {
+            header = "Our Beloved Customers";
+            list = store.customers();
+        }
+        if(record == Record.OPTION) 
+        {
+            header = "Options for our SuperComputers";
+            list = store.options();
+        }
+        if(record == Record.COMPUTER) 
+        {
+            header = "Computers for Sale - Cheap!";
+            list = store.computers();
+        }              
+        if(record == Record.ORDER) 
+        {
+            header = "Orders Placed to Date";
+            list = store.orders();
+        }
+                        
+        StringBuilder sb = new StringBuilder("<html><p><font size=+2>" + header + "</font></p><br/>\n<ol>\n");
+        for(Object i : list) sb.append("<li>" + i.toString().replaceAll("<","&lt;")
+                                                            .replaceAll(">", "&gt;")
+                                                            .replaceAll("\n", "<br/>") + "</li>\n");
+        sb.append("</ol></html>");
+        display.setText(sb.toString());
+
+        /*String header = "";
         StringBuilder string = new StringBuilder();  
         switch(record)
         {
@@ -276,7 +461,7 @@ public class MainWin extends JFrame
         }
         display.setText("<html><p><font size=+4>" + header +
                         "</font></p></br><ol><font size=+2><li>" + string.toString() +
-                        "</li><li></li></font></ol></html>"); 
+                        "</li><li></li></font></ol></html>"); */
     }
 
     protected void onAboutClick() // Display About dialog
@@ -290,33 +475,56 @@ public class MainWin extends JFrame
         }*/
         
         JLabel title = new JLabel("<html>"
-        + "<p><font size=+4>ELSA</font></p>"
-        + "<p><font size=+4>Exceptional Laptops and Supercomputers Always</font></p>"
-        + "<p>Version 0.2</p>"
-        + "</html>",
-          SwingConstants.CENTER);
+          + "<p><font size=+4>ELSA</font></p>"
+          + "</html>",
+            SwingConstants.CENTER);
+
+        JLabel subtitle = new JLabel("<html>"
+          + "<p>Exceptional Laptops and Supercomputers Always</p>"
+          + "</html>",
+            SwingConstants.CENTER);
+
+        JLabel version = new JLabel("<html>"
+          + "<p>Version 0.3</p>"
+          + "</html>",
+            SwingConstants.CENTER);
 
         JLabel artists = new JLabel("<html>"
-        + "<br/><p>Copyright 2017-2023 by George F. Rice</p>"
+        + "<br/><p>Copyright 2023 by Marcia K. Kimenyembo</p>"
         + "<p>Licensed under Gnu GPL 3.0</p><br/>"
-        + "<p><font size=-2>Add Customer icon based on work by Dreamstate per the Flaticon License</font></p>"
-        + "<p><font size=-2>https://www.flaticon.com/free-icon/user_3114957</font></p>"
-        + "<p><font size=-2>View Customers icon based on work by Ilham Fitrotul Hayat per the Flaticon License</font></p>"
-        + "<p><font size=-2>https://www.flaticon.com/free-icon/group_694642</font></p>"
-        + "<p><font size=-2>Add Option icon based on work by Freepik per the Flaticon License</font></p>"
-        + "<p><font size=-2>https://www.flaticon.com/free-icon/quantum-computing_4103999</font></p>"
-        + "<p><font size=-2>View Options icon based on work by Freepik per the Flaticon License</font></p>"
-        + "<p><font size=-2>https://www.flaticon.com/free-icon/network_9094450</font></p>"
-        + "<p><font size=-2>Add Computer icon based on work by Freepik per the Flaticon License</font></p>"
-        + "<p><font size=-2>https://www.flaticon.com/free-icon/laptop_689396</font></p>"
-        + "<p><font size=-2>View Computers icon based on work by Futuer per the Flaticon License</font></p>"
-        + "<p><font size=-2>https://www.flaticon.com/free-icon/computer-networks_9672993</font></p>"
+
+        + "<br/><p><font size=-2>Add Customer icon based on work by Freepik per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icons/add-user</font></p>"
+
+        + "<br/><p><font size=-2>View Customers icon based on work by Flat Icons per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icons/discovery</font></p>"
+
+        + "<br/><p><font size=-2>Add Option icon based on work by Vectorslab per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icons/module</font></p>"
+
+        + "<br/><p><font size=-2>View Options icon based on work by Flat Icons per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icons/embedded</font></p>"
+
+        + "<br/><p><font size=-2>Add Computer icon based on work by Paul J. per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icons/add-file</font></p>"
+
+        + "<br/><p><font size=-2>View Computers icon based on work by Freepik per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icons/network</font></p>"
+
+        + "<br/><p><font size=-2>New icon based on work by Pixartist per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icons/tabs</font></p>"
+
+        + "<br/><p><font size=-2>Open icon based on work by Flowicon per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icons/email</font></p>"
+
+        + "<br/><p><font size=-2>Save icon based on work by Freepik per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icons/archive</font></p>"
+
+        + "<br/><p><font size=-2>Save as icon based on work by Freepik per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icons/save</font></p>"
+
         + "</html>");
           
-         JOptionPane.showMessageDialog(this, 
-             new Object[]{title, artists},
-             "ELSA",
-             JOptionPane.PLAIN_MESSAGE
-         );
+         JOptionPane.showMessageDialog(this, new Object[]{title, subtitle, version, artists},"ELSA", JOptionPane.PLAIN_MESSAGE);
     }
 }
