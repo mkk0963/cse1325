@@ -19,7 +19,7 @@ import javax.swing.BoxLayout;
 //import javax.swing.UIManager;        // to access default icons
 import javax.swing.JLabel;           // text or image holder
 import javax.swing.ImageIcon;        // holds a custom icon
-//import javax.swing.SwingConstants;   // useful values for Swing method calls
+import javax.swing.SwingConstants;   // useful values for Swing method calls
 
 
 //import javax.imageio.ImageIO;        // loads an image from a file
@@ -543,20 +543,20 @@ public class MainWin extends JFrame
 
         JLabel title = new JLabel("<html>"
           + "<p><font size=+4>ELSA</font></p>"
-          + "</html>");
-          //,SwingConstants.CENTER);
+          + "</html>",
+          SwingConstants.CENTER);
         text.add(title);
 
         JLabel subtitle = new JLabel("<html>"
           + "<p>Exceptional Laptops and Supercomputers Always</p>"
-          + "</html>");
-          //,SwingConstants.CENTER);
+          + "</html>",
+          SwingConstants.CENTER);
         text.add(subtitle);
 
         JLabel version = new JLabel("<html>"
           + "<p>Version 0.3</p>"
-          + "</html>");
-          //,SwingConstants.CENTER);
+          + "</html>",
+          SwingConstants.CENTER);
         text.add(version);
 
         JLabel artists = new JLabel("<html>"
