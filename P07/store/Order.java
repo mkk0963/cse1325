@@ -1,6 +1,9 @@
 package store;
 
 import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 public class Order
 {
@@ -14,11 +17,33 @@ public class Order
         this.customer = customer;
     }
 
+    public void save(BufferedWriter bw) throws IOException
+    {
+        bw.write("" + nextOrderNumber + '\n');
+        bw.write("" + orderNumber + '\n');
+        customer.save(bw);
+
+        bw.write("" + computers.size() + '\n');
+        for(Computer comp : computers) comp.save(bw);
+    }
+
+
+    public Order(BufferedReader br) throws IOException
+    {
+        nextOrderNumber = Long.parseLong(br.readLine());
+        this.orderNumber = Long.parseLong(br.readLine());
+        this.customer = new Customer(br);
+
+        int numComp = Integer.parseInt(br.readLine());
+        while(numComp-- > 0) computers.add(new Computer(br));
+    }
+
     public void addComputer(Computer computer)
     {
         computers.add(computer);
     }
 
+    @Override
     public String toString()
     {
         StringBuilder order = new StringBuilder("Order " + orderNumber + " for " + customer);
@@ -30,6 +55,7 @@ public class Order
         return order.toString();
     }
 
+    @Override
     public boolean equals(Object o)
     {
         if(this == o)

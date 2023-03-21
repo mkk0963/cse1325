@@ -1,6 +1,9 @@
 package store;
 
 import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 public class Computer
 {
@@ -12,6 +15,24 @@ public class Computer
     {
         this.name = name;
         this.model = model;
+    }
+
+    public void save(BufferedWriter bw) throws IOException
+    {
+        bw.write(name + '\n');
+        bw.write(model + '\n');
+
+        bw.write("" + options.size() + '\n');
+        for(Option opt : options) opt.save(bw);
+    }
+
+    public Computer(BufferedReader br) throws IOException
+    {
+        this.name = br.readLine();
+        this.model = br.readLine();
+
+        int numOpt = Integer.parseInt(br.readLine());
+        while(numOpt-- > 0) options.add(new Option(br));
     }
 
     public void addOption(Option option)
@@ -31,6 +52,7 @@ public class Computer
         return sum;
     }
 
+    @Override
     public String toString()
     {
         StringBuilder computer = new StringBuilder(name + " (" + model + ") ");
@@ -42,6 +64,7 @@ public class Computer
         return computer.toString();
     }
 
+    @Override
     public boolean equals(Object o)
     {
         if(this == o)

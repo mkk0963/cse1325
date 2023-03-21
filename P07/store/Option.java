@@ -1,5 +1,9 @@
 package store;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 public class Option // inheritance is in the future!!
 {
     protected String name;
@@ -14,6 +18,18 @@ public class Option // inheritance is in the future!!
         {
             throw new IllegalArgumentException( " ⚠️ " + cost + " cannot be negative ⚠️ ");
         }
+    }
+
+    public void save(BufferedWriter bw) throws IOException
+    {
+        bw.write(name + '\n');
+        bw.write("" + cost + '\n');
+    }
+
+    public Option(BufferedReader br) throws IOException
+    {
+        this.name = br.readLine();
+        this.cost = Long.parseLong(br.readLine());
     }
 
     public long cost()

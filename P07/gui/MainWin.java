@@ -160,6 +160,26 @@ public class MainWin extends JFrame
     
     // Listeners
 
+    protected void onNewClick()
+    {
+
+    }
+
+    protected void onOpenClick()
+    {
+
+    }
+
+    protected void onSaveClick()
+    {
+
+    }
+
+    protected void onSaveAsClick()
+    {
+        
+    }
+
     protected void onQuitClick() // Exit the game
     {
         System.exit(0);
