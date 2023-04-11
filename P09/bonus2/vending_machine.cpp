@@ -25,7 +25,6 @@ void Vending_machine::add(std::string name, int price)
 void Vending_machine::buy(int index) 
 {
     std::cout << "#### Buying " << items[index] << std::endl;
-    items.erase(items.begin() + index);
 }
 
 std::ostream& operator<<(std::ostream& os, const Vending_machine& machine) 
