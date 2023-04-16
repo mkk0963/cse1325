@@ -43,6 +43,18 @@ public class Order
         computers.add(computer);
     }
 
+    public long cost()
+    {
+        long total =  0;
+        
+        for(Computer index : computers)
+        {
+            total += index.cost();
+        }
+
+        return total;
+    }
+
     @Override
     public String toString()
     {
@@ -51,6 +63,8 @@ public class Order
         {
             order.append(index);
         }
+
+        order.append("Total cost: " + cost());
 
         return order.toString();
     }
