@@ -476,25 +476,27 @@ public class MainWin extends JFrame
                 break;
             }
             
-            try
+           
+            Computer computer = (Computer) compBox.getSelectedItem();
+            order.addComputer(computer);
+            result = JOptionPane.showConfirmDialog(this, "Do you want to place the order?", "Place Order", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if(result == JOptionPane.YES_OPTION)
             {
-                Computer computer = (Computer) compBox.getSelectedItem();
-                order.addComputer(computer);
-                result = JOptionPane.showConfirmDialog(this, "Do you want to place the order?", "Place Order", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if(result == JOptionPane.YES_OPTION)
+                if(computersArr.length == 0)
+                {
+                    JOptionPane.showMessageDialog(this, "Order not placed. No computers available", "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
+                }
+                else
                 {
                     store.add(order);
                     ++orderPlaced;
                     //break;
                 }
             }
-            catch(NullPointerException e)
+            else
             {
-                throw new NullPointerException();
-            }
-            catch(Exception e)
-            {
-                JOptionPane.showMessageDialog(this, e, "Order not placed", JOptionPane.ERROR_MESSAGE);
+                break;
             }
         } 
 
