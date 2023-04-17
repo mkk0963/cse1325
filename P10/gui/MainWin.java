@@ -88,11 +88,13 @@ public class MainWin extends JFrame
         JMenuItem insertCust  = new JMenuItem("Customer");
         JMenuItem  insertOpt = new JMenuItem("Option");
         JMenuItem insertComp = new JMenuItem("Computer");
+        JMenuItem insertOrd = new JMenuItem("Order");
 
         JMenu view = new JMenu("View");
-        JMenuItem viewCust = new JMenuItem("Customer");
+        JMenuItem viewCust = new JMenuItem("Customers");
         JMenuItem viewOpt = new JMenuItem("Options");
-        JMenuItem viewComp = new JMenuItem("Computer");
+        JMenuItem viewComp = new JMenuItem("Computers");
+        JMenuItem viewOrd = new JMenuItem("Orders");
 
         JMenu help = new JMenu("Help");
         JMenuItem about = new JMenuItem("About");
@@ -106,10 +108,12 @@ public class MainWin extends JFrame
         insertCust.addActionListener(event -> onInsertCustomerClick());
         insertOpt.addActionListener(event -> onInsertOptionClick());
         insertComp.addActionListener(event -> onInsertComputerClick());
+        insertOrd.addActionListener(event -> onInsertOrderClick());
 
         viewCust.addActionListener(event -> onViewClick(Record.CUSTOMER));
         viewOpt.addActionListener(event -> onViewClick(Record.OPTION));
         viewComp.addActionListener(event -> onViewClick(Record.COMPUTER));
+        viewOrd.addActionListener(event -> onViewClick(Record.ORDER));
 
         about.addActionListener(event -> onAboutClick());
 
@@ -127,9 +131,11 @@ public class MainWin extends JFrame
         insert.add(insertCust);
         insert.add(insertOpt);
         insert.add(insertComp);
+        insert.add(insertOrd);
         view.add(viewCust);
         view.add(viewOpt);
         view.add(viewComp);
+        view.add(viewOrd);
         help.add(about);
 
         // ///////////// //////////////////////////////////////////////////////////
@@ -144,9 +150,8 @@ public class MainWin extends JFrame
         toolbar.add(newButton);
         newButton.addActionListener(event -> onNewClick());
 
-        toolbar.add(Box.createHorizontalStrut(50));
+        toolbar.add(Box.createHorizontalStrut(30));
         
-
         JButton openButton = new JButton(new ImageIcon("gui/resources/open.png")); // add image
         openButton.setActionCommand("Open a specific file");
         openButton.setToolTipText("Open a specific file");
@@ -185,6 +190,12 @@ public class MainWin extends JFrame
         toolbar.add(computer);
         computer.addActionListener(event -> onInsertComputerClick());
 
+        JButton order = new JButton(new ImageIcon("gui/resources/add_order.png")); // add path
+        order.setActionCommand("Insert Order");
+        order.setToolTipText("Insert a new order");
+        toolbar.add(order);
+        order.addActionListener(event -> onInsertOrderClick());
+
         toolbar.add(Box.createHorizontalStrut(25));
 
         JButton vCustomer = new JButton(new ImageIcon("gui/resources/view_customers.png"));
@@ -204,6 +215,13 @@ public class MainWin extends JFrame
         vComputer.setToolTipText("View the list of computers");
         toolbar.add(vComputer);
         vComputer.addActionListener(event -> onViewClick(Record.COMPUTER));
+
+        JButton vOrder = new JButton(new ImageIcon("gui/resources/view_orders.png")); // add image path
+        vOrder.setActionCommand("View Orders");
+        vOrder.setToolTipText("View the list of orders");
+        toolbar.add(vOrder);
+        vOrder.addActionListener(event -> onViewClick(Record.ORDER));
+
         toolbar.addSeparator();
 
         getContentPane().add(toolbar, BorderLayout.PAGE_START);
@@ -350,7 +368,7 @@ public class MainWin extends JFrame
         }*/
     }
 
-    protected  void onInsertComputerClick()
+    protected void onInsertComputerClick()
     {
         try 
         { 
@@ -406,6 +424,11 @@ public class MainWin extends JFrame
             computer.addOption(option);
             store.add(computer);
         }*/
+    }
+
+    protected void onInsertOrderClick()
+    {
+
     }
 
     protected void onViewClick(Record record)
@@ -580,6 +603,12 @@ public class MainWin extends JFrame
 
         + "<br/><p><font size=-2>View Computers icon based on work by Freepik per the Flaticon License</font></p>"
         + "<p><font size=-2>https://www.flaticon.com/free-icons/network</font></p>"
+
+        + "<br/><p><font size=-2>Add Order icon based on work by Vectorslab per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icons/shipping-and-delivery</font></p>"
+
+        + "<br/><p><font size=-2>View Orders icon based on work by Freepik per the Flaticon License</font></p>"
+        + "<p><font size=-2>https://www.flaticon.com/free-icons/order</font></p>"
 
         + "<br/><p><font size=-2>New icon based on work by Pixartist per the Flaticon License</font></p>"
         + "<p><font size=-2>https://www.flaticon.com/free-icons/tabs</font></p>"
