@@ -51,7 +51,6 @@ public class Order
         {
             total += index.cost();
         }
-
         return total;
     }
 
@@ -63,8 +62,7 @@ public class Order
         {
             order.append(index);
         }
-
-        order.append("Total cost: " + cost());
+        order.append("Total cost: $" + cost()/100.0);
 
         return order.toString();
     }

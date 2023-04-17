@@ -32,6 +32,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 //import java.awt.Color;               // the color of widgets, text, or borders
@@ -40,8 +41,8 @@ import java.awt.Font;                // rich text in a JLabel or similar widget
 
 import store.Customer;
 import store.Option;
+import store.Order;
 import store.Computer;
-//import store.Order;
 import store.Store;
 
 
@@ -52,7 +53,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.IOException; 
+import java.io.IOException;
+//import java.util.ArrayList;
 
 enum Record
 {
@@ -69,7 +71,7 @@ public class MainWin extends JFrame
     {
         super(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(650, 300);
+        setSize(800, 400);
         
         // /////// ////////////////////////////////////////////////////////////////
         // M E N U
@@ -150,7 +152,7 @@ public class MainWin extends JFrame
         toolbar.add(newButton);
         newButton.addActionListener(event -> onNewClick());
 
-        toolbar.add(Box.createHorizontalStrut(30));
+        toolbar.add(Box.createHorizontalStrut(50));
         
         JButton openButton = new JButton(new ImageIcon("gui/resources/open.png")); // add image
         openButton.setActionCommand("Open a specific file");
@@ -248,8 +250,9 @@ public class MainWin extends JFrame
         {
             String name = JOptionPane.showInputDialog(this, "Store Name", "Input", JOptionPane.QUESTION_MESSAGE);
             store = new Store(name);
-            MainWin newWindow = new MainWin(store.name());
-            newWindow.setVisible(true);
+            //MainWin newWindow = new MainWin(store.name());
+            //newWindow.setVisible(true);
+            //onViewClick(Record.CUSTOMER);
         }
        
     }
@@ -287,7 +290,7 @@ public class MainWin extends JFrame
         }
         catch (Exception e)
         {
-            JOptionPane.showMessageDialog(this, "Unable to open/write " + filename + '\n' + e, "Failed", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Unable to save/write " + filename + '\n' + e, "Failed", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -428,7 +431,77 @@ public class MainWin extends JFrame
 
     protected void onInsertOrderClick()
     {
+        Object[] customersArr = store.customers();
+        Customer customer = null;
 
+        if(customersArr.length == 0)
+        {
+            onInsertCustomerClick();
+            return;
+        }
+        else if(customersArr.length == 1)
+        {
+            customer = (Customer) customersArr[0];
+        }
+        else 
+        {
+            JComboBox<Object> custBox = new JComboBox<>(customersArr);
+            JPanel custJPanel = new JPanel(new GridLayout(2, 2));
+            custJPanel.add(new JLabel("Order for which Customer?"));
+            custJPanel.add(custBox);
+
+            int result = JOptionPane.showConfirmDialog(this, custJPanel, "Select a Customer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            if(result == JOptionPane.CANCEL_OPTION)
+            {
+                return;
+            }
+
+            customer = (Customer) custBox.getSelectedItem();
+        }
+
+        Order order = new Order(customer);
+
+        int orderPlaced = 0;
+        while(true)
+        {
+            Object[] computersArr = store.computers();
+            JComboBox<Object> compBox = new JComboBox<>(computersArr);
+            JPanel compPanel = new JPanel(new GridLayout(2, 2));
+            compPanel.add(new JLabel(order.toString()));
+            compPanel.add(compBox);
+
+            int result = JOptionPane.showConfirmDialog(this, compPanel, "Current Order", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            if(result == JOptionPane.CANCEL_OPTION)
+            {
+                break;
+            }
+            
+            try
+            {
+                Computer computer = (Computer) compBox.getSelectedItem();
+                order.addComputer(computer);
+                result = JOptionPane.showConfirmDialog(this, "Do you want to place the order?", "Place Order", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if(result == JOptionPane.YES_OPTION)
+                {
+                    store.add(order);
+                    ++orderPlaced;
+                    //break;
+                }
+            }
+            catch(NullPointerException e)
+            {
+                throw new NullPointerException();
+            }
+            catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(this, e, "Order not placed", JOptionPane.ERROR_MESSAGE);
+            }
+        } 
+
+        if(orderPlaced > 0)
+        {
+            onViewClick(Record.ORDER);
+        }
     }
 
     protected void onViewClick(Record record)
@@ -577,7 +650,7 @@ public class MainWin extends JFrame
         text.add(subtitle);
 
         JLabel version = new JLabel("<html>"
-          + "<p>Version 0.3</p>"
+          + "<p>Version 4.0</p>"
           + "</html>",
           SwingConstants.CENTER);
         text.add(version);
