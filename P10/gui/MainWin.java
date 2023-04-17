@@ -3,6 +3,7 @@ package gui;
 import javax.swing.JFrame;           // for main window
 import javax.swing.JOptionPane;      // for standard dialogs
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JMenuBar;         // row of menu selections
 import javax.swing.JMenu;            // menu selection that offers another menu
 import javax.swing.JMenuItem;        // menu selection that does something
@@ -321,12 +322,26 @@ public class MainWin extends JFrame
     {
         try
         {
-            String name = JOptionPane.showInputDialog(this, "Customer name", "New Customer", JOptionPane.QUESTION_MESSAGE);
-            String email = JOptionPane.showInputDialog(this, "Customer email", "New Customer", JOptionPane.QUESTION_MESSAGE);
-            store.add(new Customer(name, email));
-            onViewClick(Record.CUSTOMER);
+            JPanel panel = new JPanel(new GridLayout(5, 10));
+
+            JTextField nameField = new JTextField();
+            panel.add(new JLabel("Name"));
+            panel.add(nameField);
+
+            JTextField emailField = new JTextField();
+            panel.add(new JLabel("Email"));
+            panel.add(emailField);
+    
+            int result = JOptionPane.showConfirmDialog(this, panel, "New Customer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("gui/resources/add_customer.png"));
+    
+            if (result == JOptionPane.OK_OPTION) {
+                String name = nameField.getText().trim();
+                String email = emailField.getText().trim();
+                store.add(new Customer(name, email));
+                onViewClick(Record.CUSTOMER);
+            }
         }
-        catch(NullPointerException e) 
+        catch(NullPointerException e)
         {
 
         }
