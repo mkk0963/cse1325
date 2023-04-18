@@ -353,94 +353,87 @@ public class MainWin extends JFrame
 
     protected  void onInsertOptionClick()
     {
-        try 
-        { 
-            store.add(new Option(JOptionPane.showInputDialog(this, "Option name", "New Option", JOptionPane.QUESTION_MESSAGE),
-                (long) (100.0 * Double.parseDouble(JOptionPane.showInputDialog(this, "Option cost", "New Option", JOptionPane.QUESTION_MESSAGE)))));
-
-            onViewClick(Record.OPTION);
-        } 
-        catch(NullPointerException e) 
+        try
         {
+            JPanel panel = new JPanel(new GridLayout(5,10));
 
-        } 
-        catch(Exception e) 
-        {
-            JOptionPane.showMessageDialog(this, e, 
-                "Customer Not Created", JOptionPane.ERROR_MESSAGE);
-        }
+            JTextField nameField = new JTextField();
+            panel.add(new JLabel("Option name"));
+            panel.add(nameField);
 
-        /*try
-        {
-            String name = JOptionPane.showInputDialog(this, "Enter Option", "New Option", JOptionPane.QUESTION_MESSAGE);
-            String cost = JOptionPane.showInputDialog(this, "Enter Cost", "New Option", JOptionPane.QUESTION_MESSAGE);
+            JTextField costField = new JTextField();
+            panel.add(new JLabel("Option cost"));
+            panel.add(costField);
+
+            int result = JOptionPane.showConfirmDialog(this, panel, "New Option", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("gui/resources/add_option.png"));
             
-            long clong = 0;
-            double cdouble = Double.parseDouble(cost);
-            clong = (long)(cdouble * 100);
-            store.add(new Option(name, clong));
+            if(result == JOptionPane.OK_OPTION)
+            {
+                String name = nameField.getText().trim();
+                long cost = (long) (100.0 * Double.parseDouble(costField.getText().trim()));
+                store.add(new Option(name, cost));
+                onViewClick(Record.OPTION);
+            }
+        }
+        catch(NullPointerException e)
+        {
+
         }
         catch(Exception e)
         {
-        }*/
+            JOptionPane.showMessageDialog(this, e, 
+                "Option not created", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     protected void onInsertComputerClick()
     {
-        try 
-        { 
-            Computer c = new Computer(JOptionPane.showInputDialog(this, "Computer name", "New Computer", JOptionPane.QUESTION_MESSAGE),
-                JOptionPane.showInputDialog(this, "Computer model", "New Computer", JOptionPane.QUESTION_MESSAGE));
+        try
+        {
+            JPanel panel = new JPanel(new GridLayout(5,10));
+
+            JTextField nameField = new JTextField();
+            panel.add(new JLabel("Computer name"));
+            panel.add(nameField);
+
+            JTextField modelField = new JTextField();
+            panel.add(new JLabel("Computer model"));
+            panel.add(modelField);
 
             JComboBox<Object> cb = new JComboBox<>(store.options());
-            int optionsAdded = 0; // Don't add computers with no options
+            int optionsAdded = 0;
+            int result = JOptionPane.showConfirmDialog(this, panel, "New Computer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("gui/resources/add_computer.png"));
 
-            while(true) 
+            if(result == JOptionPane.OK_OPTION)
             {
-                int button = JOptionPane.showConfirmDialog(this, cb, "Another Option?", JOptionPane.YES_NO_OPTION);
+                String name = nameField.getText().trim();
+                String model = modelField.getText().trim();
+                Computer c = new Computer(name, model);
 
-                if(button != JOptionPane.YES_OPTION) break;
-                c.addOption((Option) cb.getSelectedItem());
-                ++optionsAdded;
-            }
+                while(true)
+                {
+                    int button = JOptionPane.showConfirmDialog(this, cb, "Another Option?", JOptionPane.YES_NO_OPTION);
 
-            if(optionsAdded > 0) 
-            {
-                store.add(c);
-                onViewClick(Record.COMPUTER);
+                    if(button != JOptionPane.YES_OPTION) break;
+                    c.addOption((Option) cb.getSelectedItem());
+                    ++optionsAdded;
+                }
+
+                if(optionsAdded > 0)
+                {
+                    store.add(c);
+                    onViewClick(Record.COMPUTER);
+                }
             }
-        } 
-        catch(NullPointerException e) 
+        }
+        catch(NullPointerException e)
         {
 
-        } 
-        catch(Exception e) 
+        }
+        catch(Exception e)
         {
             JOptionPane.showMessageDialog(this, e, "Computer Not Created", JOptionPane.ERROR_MESSAGE);
-        }    
-
-        /*String name = JOptionPane.showInputDialog(this, "Computer name", "New Computer", JOptionPane.QUESTION_MESSAGE);
-        String model = JOptionPane.showInputDialog(this, "Computer Model", "New Computer", JOptionPane.QUESTION_MESSAGE);
-
-        Object[] options = store.options();
-        JComboBox<Object> comboBox = new JComboBox<>(options);
-
-        for (Object o : options) 
-        {
-            Option i = (Option) o;
-            comboBox.addItem(i);
         }
-
-        Object[] message = {"Select options for the computer:",comboBox};
-
-        JFrame confirmation = new JFrame();
-        int result = JOptionPane.showConfirmDialog(confirmation, message, "Options", JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.OK_OPTION) {
-            Computer computer = new Computer(name, model);
-            Option option = (Option) comboBox.getSelectedItem();
-            computer.addOption(option);
-            store.add(computer);
-        }*/
     }
 
     protected void onInsertOrderClick()
@@ -552,39 +545,6 @@ public class MainWin extends JFrame
                                                             .replaceAll("\n", "<br/>") + "</li>\n");
         sb.append("</ol></html>");
         display.setText(sb.toString());
-
-        /*String header = "";
-        StringBuilder string = new StringBuilder();  
-        switch(record)
-        {
-            case CUSTOMER:
-                header = "Customers";
-                for(var i : store.customers())
-                {
-                    string.append(i.toString());
-                    
-                }
-                break;
-            case OPTION:
-                header = "Options";
-                for(var i : store.options())
-                {
-                    string.append(i.toString());
-                }
-                break;
-            case COMPUTER:
-                header = "Computers";
-                for(var i : store.computers())
-                {
-                    string.append(i.toString());
-                }
-                break;
-            default:
-                display.setText("Invalid Displays Type: " + display);
-        }
-        display.setText("<html><p><font size=+4>" + header +
-                        "</font></p></br><ol><font size=+2><li>" + string.toString() +
-                        "</li><li></li></font></ol></html>"); */
     }
 
     public class Canvas extends JPanel
