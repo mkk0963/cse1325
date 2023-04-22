@@ -5,7 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 //import java.util.ArrayList;
 import java.util.HashSet;
-//import java.util.TreeSet;
+import java.util.TreeSet;
 
 public class Store 
 {
@@ -19,7 +19,7 @@ public class Store
     //private ArrayList<Computer> computers = new ArrayList<>();
     //private ArrayList<Order> orders = new ArrayList<>();
 
-    HashSet<Customer> customers = new HashSet<>();
+    TreeSet<Customer> customers = new TreeSet<>();
     HashSet<Option> options = new HashSet<>();
     HashSet<Computer> computers = new HashSet<>();
     HashSet<Order> orders = new HashSet<>();
