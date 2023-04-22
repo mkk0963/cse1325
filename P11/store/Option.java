@@ -5,7 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Option // inheritance is in the future!!
+public class Option implements Saveable // inheritance is in the future!!
 {
     protected String name;
     protected long cost;
@@ -21,6 +21,7 @@ public class Option // inheritance is in the future!!
         }
     }
 
+    @Override
     public void save(BufferedWriter bw) throws IOException
     {
         bw.write(name + '\n');

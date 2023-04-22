@@ -6,7 +6,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Computer
+public class Computer implements Saveable
 {
     private String name;
     private String model;
@@ -18,6 +18,7 @@ public class Computer
         this.model = model;
     }
 
+    @Override
     public void save(BufferedWriter bw) throws IOException
     {
         bw.write(name + '\n');

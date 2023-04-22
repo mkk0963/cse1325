@@ -5,7 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Customer implements Comparable<Customer>
+public class Customer implements Comparable<Customer>, Saveable
 {
     private String name;
     private String email;
@@ -24,6 +24,7 @@ public class Customer implements Comparable<Customer>
         }
     }
 
+    @Override
     public void save(BufferedWriter bw) throws IOException
     {
         bw.write(name + '\n');
@@ -64,16 +65,17 @@ public class Customer implements Comparable<Customer>
     }
 
     @Override
-    public int compareTo(Customer other) 
+    public int compareTo(Customer cust) 
     {
-        int nameCompare = this.name.compareTo(other.name);
-        if (nameCompare != 0) 
+        int result = this.name.compareTo(cust.name);
+
+        if (result != 0) 
         {
-            return nameCompare;
+            return result;
         } 
         else 
         {
-            return this.email.compareTo(other.email);
+            return this.email.compareTo(cust.email);
         }
     }
 }

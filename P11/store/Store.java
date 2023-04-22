@@ -3,8 +3,8 @@ package store;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-//import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 public class Store 
@@ -13,11 +13,6 @@ public class Store
     // Fields
     
     private String name;
-
-    //private ArrayList<Customer> customers = new ArrayList<>();
-    //private ArrayList<Option> options = new ArrayList<>();
-    //private ArrayList<Computer> computers = new ArrayList<>();
-    //private ArrayList<Order> orders = new ArrayList<>();
 
     TreeSet<Customer> customers = new TreeSet<>();
     HashSet<Option> options = new HashSet<>();
@@ -32,18 +27,10 @@ public class Store
     public void save(BufferedWriter bw) throws IOException
     {
         bw.write(name + '\n');
-
-        bw.write("" + customers.size() + '\n');
-        for(Customer cust : customers) cust.save(bw);
-
-        bw.write("" + options.size() + '\n');
-        for(Option opt : options) opt.save(bw);
-
-        bw.write("" + computers.size() + '\n');
-        for(Computer comp : computers) comp.save(bw);
-
-        bw.write("" + orders.size() + '\n');
-        for(Order ord : orders) ord.save(bw);
+        save(bw, customers);
+        save(bw, options);
+        save(bw, computers);
+        save(bw, orders);
     }
 
     public Store(BufferedReader br) throws IOException
@@ -61,6 +48,15 @@ public class Store
 
         int numOrd = Integer.parseInt(br.readLine());
         while(numOrd-- > 0) orders.add(new Order(br));
+    }
+
+    private <T extends Saveable> void save(BufferedWriter bw, Set<T> set) throws IOException 
+    {
+        bw.write("" + set.size() + '\n');
+        for (var element : set) 
+        {
+            element.save(bw);
+        }
     }
 
     public String name() 
