@@ -3,6 +3,7 @@ package store;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Option // inheritance is in the future!!
 {
@@ -62,5 +63,11 @@ public class Option // inheritance is in the future!!
         Option options = (Option)o;
         return name.equals(options.name) && Long.valueOf(cost).equals(options.cost);
     
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(name, cost);
     }
 }

@@ -3,6 +3,7 @@ package store;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Customer
 {
@@ -54,5 +55,11 @@ public class Customer
         }
         Customer customers = (Customer)o;
         return email.equals(customers.email);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(name, email);
     }
 }

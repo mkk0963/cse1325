@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Order
 {
@@ -81,6 +82,12 @@ public class Order
         Order orders = (Order)o;
         return customer.equals(orders.customer) && computers.equals(orders.computers);
         
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(customer, computers);
     }
 
 }

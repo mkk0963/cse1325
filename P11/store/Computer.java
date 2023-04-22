@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Computer
 {
@@ -79,5 +80,11 @@ public class Computer
         return name.equals(computers.name) && options.equals(computers.options);
 
         //  Improve!! not sure if this is correct. 
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(name, model, options);
     }
 }

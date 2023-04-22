@@ -3,7 +3,9 @@ package store;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+//import java.util.ArrayList;
+import java.util.HashSet;
+//import java.util.TreeSet;
 
 public class Store 
 {
@@ -11,10 +13,16 @@ public class Store
     // Fields
     
     private String name;
-    private ArrayList<Customer> customers = new ArrayList<>();
-    private ArrayList<Option> options = new ArrayList<>();
-    private ArrayList<Computer> computers = new ArrayList<>();
-    private ArrayList<Order> orders = new ArrayList<>();
+
+    //private ArrayList<Customer> customers = new ArrayList<>();
+    //private ArrayList<Option> options = new ArrayList<>();
+    //private ArrayList<Computer> computers = new ArrayList<>();
+    //private ArrayList<Order> orders = new ArrayList<>();
+
+    HashSet<Customer> customers = new HashSet<>();
+    HashSet<Option> options = new HashSet<>();
+    HashSet<Computer> computers = new HashSet<>();
+    HashSet<Order> orders = new HashSet<>();
 
     public Store(String name) 
     {
