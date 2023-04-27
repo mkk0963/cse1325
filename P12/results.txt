@@ -13,6 +13,11 @@ FULL CREDIT
 
 QUESTION 1: Which puzzle did you use as ThreadsOfSudoku's parameter to achieve a 30+ second runtime (using "real"):
 
+
+I used the 13_zeros puzzle.
+
+
+
 QUESTION 2: Provide the full ``time`` output for your program, with 1 to 16 threads. It may prove interesting to screenshot your system monitor while these run. You may be able to run all of these with a single bash command if you like (replace 14_zeros with your puzzle from QUESTION 1): 
 
 for i in {1..16} ; do printf "\n Threads %d:\n" $i ; time (java ThreadsOfSudoku $i puzzle.txt 14_zeros > temp.txt) ; done
@@ -37,6 +42,55 @@ sys	0m0.252s
 
 YOUR Timing:
 
+Copied from macOS Big Sur Terminal with 4 Cores:
+
+Threads 1:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  37.07s user || 0.23s system || 102% cpu || 36.423s total/real
+
+ Threads 2:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  38.13s user || 0.25s system || 200% cpu || 19.183s total/real
+
+ Threads 3:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  39.31s user || 0.27s system || 272% cpu || 14.506s total/real
+
+ Threads 4:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  40.04s user || 0.28s system || 334% cpu || 12.042s total/real
+
+ Threads 5:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  44.58s user || 0.28s system || 416% cpu || 10.765s total/real
+
+ Threads 6:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  50.66s user || 0.30s system || 424% cpu || 11.998s total/real
+
+ Threads 7:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  53.71s user || 0.31s system || 522% cpu || 10.332s total/real
+
+ Threads 8:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  61.72s user || 0.34s system || 605% cpu || 10.257s total/real
+
+ Threads 9:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  64.86s user || 0.36s system || 595% cpu || 10.944s total/real
+
+ Threads 10:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  67.80s user || 0.39s system || 599% cpu || 11.366s total/real
+
+ Threads 11:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  66.80s user || 0.40s system || 646% cpu || 10.389s total/real
+
+ Threads 12:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  67.52s user || 0.35s system || 667% cpu || 10.171s total/real
+
+ Threads 13:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  69.45s user || 0.40s system || 668% cpu || 10.448s total/real
+
+ Threads 14:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  70.38s user || 0.38s system || 698% cpu || 10.128s total/real
+
+ Threads 15:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  70.83s user || 0.38s system || 701% cpu || 10.146s total/real
+
+ Threads 16:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  70.14s user || 0.36s system || 699% cpu || 10.080s total/real
 
 
 
@@ -45,12 +99,14 @@ YOUR Timing:
 QUESTION 3: Does adding more threads continue to speed up the program? Do more threads ever slow down the program slightly?  Why or why not?
 
 
-
+Adding more threads does not slow down the program but rather speeds it up. That's because threads allows a program to operate better by doing
+multiple things at the same time.
 
 
 QUESTION 4: Does adding more threads increase the "system load", or is it constant regardless of the number of threads?  Why?
 
 
+Adding more threads does increase the system load. That's because a threaded program requires more operating system support.
 
 
 

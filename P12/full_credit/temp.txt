@@ -1,0 +1,412 @@
+
+
+5 3 0 0 7 0 0 0 0
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+0 0 0 0 8 0 0 7 9
+
+
+
+Thread 10 will solve 54 to 59
+Thread 1 will solve 0 to 5
+Thread 9 will solve 48 to 53
+Thread 5 will solve 24 to 29
+Thread 13 will solve 72 to 77
+Thread 12 will solve 66 to 71
+Thread 8 will solve 42 to 47
+Thread 4 will solve 18 to 23
+Thread 14 will solve 78 to 80
+Thread 7 will solve 36 to 41
+Thread 6 will solve 30 to 35
+Thread 10 solving 54
+Thread 6 solving 30
+Thread 2 will solve 6 to 11
+Thread 2 solving 6
+Thread 5 solving 24
+Thread 14 solving 78
+Thread 9 solving 48
+Thread 1 solving 0
+Thread 13 solving 72
+Thread 15 will solve 84 to 80
+Thread 7 solving 36
+Thread 8 solving 42
+Thread 11 will solve 60 to 65
+Thread 11 solving 60
+Thread 3 will solve 12 to 17
+Thread 3 solving 12
+Thread 16 will solve 90 to 80
+Thread 12 solving 66
+Thread 4 solving 18
+Thread 5 solving 25
+Thread 11 solving 61
+Thread 5 solving 26
+Thread 11 solving 62
+Thread 14 solving 79
+Thread 5 solving 27
+Thread 11 solving 63
+Thread 14 solving 80
+Thread 6 solving 31
+Thread 12 solving 67
+Thread 7 solving 37
+Thread 7 solving 38
+Thread 6 solving 32
+Thread 9 solving 49
+Thread 5 solving 28
+Thread 3 solving 13
+Thread 11 solving 64
+Thread 13 solving 73
+Thread 2 solving 7
+Thread 10 solving 55
+Thread 4 solving 19
+Thread 1 solving 1
+Thread 9 solving 50
+Thread 1 solving 2
+Thread 3 solving 14
+Thread 3 solving 15
+Thread 8 solving 43
+Thread 12 solving 68
+Thread 6 solving 33
+Thread 6 solving 34
+Thread 6 solving 35
+Thread 5 solving 29
+Thread 7 solving 39
+Thread 2 solving 8
+Thread 13 solving 74
+Thread 13 solving 75
+Thread 13 solving 76
+Thread 10 solving 56
+Thread 10 solving 57
+Thread 10 solving 58
+Thread 9 solving 51
+Thread 11 solving 65
+Thread 4 solving 20
+Thread 4 solving 21
+Thread 4 solving 22
+Thread 1 solving 3
+Thread 3 solving 16
+Thread 12 solving 69
+Thread 12 solving 70
+Thread 12 solving 71
+Thread 7 solving 40
+Thread 2 solving 9
+Thread 9 solving 52
+Thread 8 solving 44
+Thread 1 solving 4
+Thread 2 solving 10
+Thread 1 solving 5
+Thread 3 solving 17
+Thread 10 solving 59
+Thread 13 solving 77
+Thread 4 solving 23
+Thread 9 solving 53
+Thread 2 solving 11
+Thread 7 solving 41
+Thread 8 solving 45
+Thread 8 solving 46
+Thread 8 solving 47
+Found 25 solutions
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+8 3 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+3 3 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+7 4 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+9 8 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+7 7 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+9 7 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+4 3 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+3 7 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+7 3 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+9 4 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+8 9 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+8 4 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+9 9 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+4 9 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+7 8 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+4 8 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+7 9 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+9 3 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+3 8 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+8 7 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+4 4 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+8 8 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+4 7 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+3 9 5 2 8 6 1 7 9
+
+
+
+5 3 4 6 7 8 9 1 2
+6 7 2 1 9 5 3 4 8
+1 9 8 3 4 2 5 6 7
+8 5 9 7 6 1 4 2 3
+4 2 6 8 5 3 7 9 1
+7 1 3 9 2 4 8 5 6
+9 6 1 5 3 7 2 8 4
+2 8 7 4 1 9 6 3 5
+3 4 5 2 8 6 1 7 9
+
