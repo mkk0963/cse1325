@@ -17,7 +17,6 @@ QUESTION 1: Which puzzle did you use as ThreadsOfSudoku's parameter to achieve a
 I used the 13_zeros puzzle.
 
 
-
 QUESTION 2: Provide the full ``time`` output for your program, with 1 to 16 threads. It may prove interesting to screenshot your system monitor while these run. You may be able to run all of these with a single bash command if you like (replace 14_zeros with your puzzle from QUESTION 1): 
 
 for i in {1..16} ; do printf "\n Threads %d:\n" $i ; time (java ThreadsOfSudoku $i puzzle.txt 14_zeros > temp.txt) ; done
@@ -41,6 +40,8 @@ sys	0m0.252s
 
 
 YOUR Timing:
+
+
 
 Copied from macOS Big Sur Terminal with 4 Cores:
 
@@ -94,8 +95,6 @@ Threads 1:
 
 
 
-
-
 QUESTION 3: Does adding more threads continue to speed up the program? Do more threads ever slow down the program slightly?  Why or why not?
 
 
@@ -109,7 +108,6 @@ QUESTION 4: Does adding more threads increase the "system load", or is it consta
 Adding more threads does increase the system load. That's because a threaded program requires more operating system support.
 
 
-
 BONUS
 =====
 
@@ -119,13 +117,65 @@ YOUR Timing:
 
 
 
+ Threads 1:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  73.61s user || 0.29s system || 201% cpu || 36.594 total/real
+
+ Threads 2:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  57.15s user || 0.27s system || 300% cpu || 19.130 total/real
+
+ Threads 3:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  52.65s user || 0.27s system || 395% cpu || 13.387 total/real
+
+ Threads 4:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  60.96s user || 0.29s system || 480% cpu || 12.760 total/real
+
+ Threads 5:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  67.12s user || 0.31s system || 579% cpu || 11.643 total/real
+
+ Threads 6:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  74.61s user || 0.34s system || 653% cpu || 11.464 total/real
+
+ Threads 7:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  80.25s user || 0.37s system || 716% cpu || 11.250 total/real
+
+ Threads 8:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  81.30s user || 0.39s system || 733% cpu || 11.133 total/real
+
+ Threads 9:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  79.57s user || 0.38s system || 736% cpu || 10.860 total/real
+
+ Threads 10:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  78.47s user || 0.38s system || 728% cpu || 10.829 total/real
+
+ Threads 11:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  79.83s user || 0.40s system || 748% cpu || 10.726 total/real
+
+ Threads 12:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  78.53s user || 0.38s system || 739% cpu || 10.667 total/real
+
+ Threads 13:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  78.33s user || 0.38s system || 739% cpu || 10.648 total/real
+
+ Threads 14:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  79.83s user || 0.41s system || 743% cpu || 10.791 total/real
+
+ Threads 15:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  81.39s user || 0.45s system || 736% cpu || 11.112 total/real
+
+ Threads 16:
+( java ThreadsOfSudoku $i puzzle.txt 13_zeros > temp.txt; )  81.31s user || 0.46s system || 732% cpu || 11.170 total/real
 
 
 
 QUESTION 6: Is a thread pool faster, slower, or roughly equivalent in performance? 
 
 
+The thread pool is roughly equivalent when it comes to the real time. The user and system time has a slight increase when using a thread pool
+compared to the solution from the full credit.
+
 
 QUESTION 7: Compare the full credit and bonus solution code. Which do you believe is more supportable over a long lifetime of evolving hardware and environments?
+
+I believe that the bonus code is more supportable over time. 
 
 
