@@ -67,6 +67,7 @@ public class MainWin extends JFrame
     private Store store;
     private JLabel display;
     private File filename;
+    private JLabel status;
 
     public MainWin(String title) 
     {
@@ -241,6 +242,13 @@ public class MainWin extends JFrame
         scroll.setPreferredSize(new Dimension(800, 400));
         add(scroll, BorderLayout.CENTER);
         //add(display, BorderLayout.CENTER);
+
+        // /////////////////////////// ////////////////////////////////////////////
+        // S T A T U S  B A R
+
+        status = new JLabel();
+        status.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        getContentPane().add(status, BorderLayout.PAGE_END);
         
         // Make everything in the JFrame visible
         setVisible(true);
@@ -249,13 +257,21 @@ public class MainWin extends JFrame
     
     // Listeners
 
+    private void setStatus(String message)
+    {
+        status.setText(message);
+    }
+
     protected void onNewClick()
     {
+        setStatus("");
+
         int newStore = JOptionPane.showConfirmDialog(this, "All saved data will be wiped, please confirm", "Confirm Create New Store", JOptionPane.YES_NO_OPTION);
         if(newStore == JOptionPane.YES_OPTION)
         {
             String name = JOptionPane.showInputDialog(this, "Store Name", "Input", JOptionPane.QUESTION_MESSAGE);
             store = new Store(name);
+            setStatus("New store created");
             //MainWin newWindow = new MainWin(store.name());
             //newWindow.setVisible(true);
             //onViewClick(Record.CUSTOMER);
@@ -265,6 +281,8 @@ public class MainWin extends JFrame
 
     protected void onOpenClick()
     {
+        setStatus("");
+
         final JFileChooser fc = new JFileChooser(filename);
         FileFilter elsaFiles = new FileNameExtensionFilter("Elsa files", "elsa");
         fc.addChoosableFileFilter(elsaFiles);
@@ -278,30 +296,38 @@ public class MainWin extends JFrame
             try (BufferedReader br = new BufferedReader(new FileReader(filename)))
             {
                 store = new Store(br);
+                setStatus("Opened " + filename.getName());
                 //MainWin newWindow = new MainWin(store.name());
                 //newWindow.setVisible(true);
             }
             catch (Exception e)
             {
                 JOptionPane.showMessageDialog(this, "Unable to open/load " + filename + '\n' + e, "Failed", JOptionPane.ERROR_MESSAGE);
+                setStatus("Failed to open " + filename.getName());
             }
         }
     }
 
     protected void onSaveClick()
     {
+        setStatus("");
+
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(filename)))
         {
             store.save(bw);
+            setStatus("Saved " + filename.getName());
         }
         catch (Exception e)
         {
             JOptionPane.showMessageDialog(this, "Unable to save/write " + filename + '\n' + e, "Failed", JOptionPane.ERROR_MESSAGE);
+            setStatus("Failed to save " + filename.getName());
         }
     }
 
     protected void onSaveAsClick()
     {
+        setStatus("");
+
         final JFileChooser fc = new JFileChooser(filename);
         FileFilter elsaFiles = new FileNameExtensionFilter("Elsa files", "elsa");
         fc.addChoosableFileFilter(elsaFiles);
@@ -316,16 +342,20 @@ public class MainWin extends JFrame
                 filename = new File(filename.getAbsolutePath() + ".elsa");
             }
             onSaveClick();
+            setStatus("Saved file as " + filename.getName());
         }
     }
 
     protected void onQuitClick() // Exit the game
     {
+        setStatus("");
         System.exit(0);
     }  
 
     protected void onInsertCustomerClick()
     {
+        setStatus("");
+
         try
         {
             JPanel panel = new JPanel(new GridLayout(5, 10));
@@ -345,6 +375,7 @@ public class MainWin extends JFrame
                 String email = emailField.getText().trim();
                 store.add(new Customer(name, email));
                 onViewClick(Record.CUSTOMER);
+                setStatus("Created Customer " + name + " with email: " + email);
             }
         }
         catch(NullPointerException e)
@@ -354,11 +385,14 @@ public class MainWin extends JFrame
         catch(Exception e) 
         {
             JOptionPane.showMessageDialog(this, e,"Customer Not Created", JOptionPane.ERROR_MESSAGE);
+            setStatus("Failed to create a new customer");
         }
     }
 
     protected  void onInsertOptionClick()
     {
+        setStatus("");
+
         try
         {
             JPanel panel = new JPanel(new GridLayout(5,10));
@@ -379,6 +413,7 @@ public class MainWin extends JFrame
                 long cost = (long) (100.0 * Double.parseDouble(costField.getText().trim()));
                 store.add(new Option(name, cost));
                 onViewClick(Record.OPTION);
+                setStatus("Created Option " + name);
             }
         }
         catch(NullPointerException e)
@@ -389,11 +424,14 @@ public class MainWin extends JFrame
         {
             JOptionPane.showMessageDialog(this, e, 
                 "Option not created", JOptionPane.ERROR_MESSAGE);
+            
+                setStatus("Failed to create a new option");
         }
     }
 
     protected void onInsertComputerClick()
     {
+        setStatus("");
         try
         {
             JPanel panel = new JPanel(new GridLayout(5,10));
@@ -429,6 +467,7 @@ public class MainWin extends JFrame
                 {
                     store.add(c);
                     onViewClick(Record.COMPUTER);
+                    setStatus("Created Computer " + name + " with model: " + model);
                 }
             }
         }
@@ -439,11 +478,13 @@ public class MainWin extends JFrame
         catch(Exception e)
         {
             JOptionPane.showMessageDialog(this, e, "Computer Not Created", JOptionPane.ERROR_MESSAGE);
+            setStatus("Failed to create a new computer");
         }
     }
 
     protected void onInsertOrderClick()
     {
+        setStatus("");
         Object[] customersArr = store.customers();
         Customer customer = null;
 
@@ -498,12 +539,14 @@ public class MainWin extends JFrame
                 if(computersArr.length == 0)
                 {
                     JOptionPane.showMessageDialog(this, "Order not placed. No computers available", "Error", JOptionPane.ERROR_MESSAGE);
+                    setStatus("Failed to place a new order");
                     break;
                 }
                 else
                 {
                     store.add(order);
                     ++orderPlaced;
+                    setStatus("Created " + order);
                     //break;
                 }
             }
@@ -521,6 +564,7 @@ public class MainWin extends JFrame
 
     protected void onViewClick(Record record)
     {
+        setStatus("");
         String header = null;
         Object[] list = null;
 
@@ -609,7 +653,7 @@ public class MainWin extends JFrame
 
     protected void onAboutClick() // Display About dialog
     {    
-
+        setStatus("");
         JDialog about = new JDialog(this, "Elsa");
         about.setLayout(new BoxLayout(about.getContentPane(), BoxLayout.PAGE_AXIS));
         Canvas logo = new Canvas();
