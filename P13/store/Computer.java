@@ -11,11 +11,22 @@ public class Computer implements Saveable
     private String name;
     private String model;
     private ArrayList<Option> options = new ArrayList<>();
+    private boolean deprecated = false;
     
     public Computer(String name, String model)
     {
         this.name = name;
         this.model = model;
+    }
+
+    public boolean isDeprecated() 
+    {
+        return deprecated;
+    }
+    
+    public void setDeprecated(boolean deprecated) 
+    {
+        this.deprecated = deprecated;
     }
 
     @Override
@@ -39,6 +50,10 @@ public class Computer implements Saveable
 
     public void addOption(Option option)
     {
+        if(option.isDeprecated())
+        {
+            throw new IllegalArgumentException("Deprecated options cannot be added to existing computers");
+        }
         options.add(option);
     }
 

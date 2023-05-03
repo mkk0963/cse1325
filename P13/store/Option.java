@@ -9,6 +9,7 @@ public class Option implements Saveable // inheritance is in the future!!
 {
     protected String name;
     protected long cost;
+    private boolean deprecated = false;
 
     public Option(String name, long cost)
     {
@@ -19,6 +20,16 @@ public class Option implements Saveable // inheritance is in the future!!
         {
             throw new IllegalArgumentException( " ⚠️ " + cost + " cannot be negative ⚠️ ");
         }
+    }
+
+    public boolean isDeprecated()
+    {
+        return deprecated;
+    }
+
+    public void setDeprecated(boolean deprecated)
+    {
+        this.deprecated = deprecated;
     }
 
     @Override

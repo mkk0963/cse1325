@@ -83,7 +83,17 @@ public class Store
     }
     public Object[] options() 
     {
-        return this.options.toArray();
+        Set<Option> nonDeprecatedOptions = new HashSet<>();
+
+        for(Option option : options)
+        {
+            if(!option.isDeprecated())
+            {
+                nonDeprecatedOptions.add(option);
+            }
+        }
+        return nonDeprecatedOptions.toArray();
+        //return this.options.toArray();
     }
     
     // ///////////////////////////////////////////////////////////
@@ -94,7 +104,17 @@ public class Store
     }
     public Object[] computers() 
     {
-        return this.computers.toArray();
+        Set<Computer> nonDeprecatedComputers = new HashSet<>();
+
+        for (Computer computer : computers) 
+        {
+            if (!computer.isDeprecated()) 
+            {
+                nonDeprecatedComputers.add(computer);
+            }
+        }
+        return nonDeprecatedComputers.toArray();
+        //return this.computers.toArray();
     }
     
     // ///////////////////////////////////////////////////////////

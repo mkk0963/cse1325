@@ -42,6 +42,10 @@ public class Order implements Saveable
 
     public void addComputer(Computer computer)
     {
+        if(computer.isDeprecated())
+        {
+            throw new IllegalArgumentException("Cannot add a deprecated computer");
+        }
         computers.add(computer);
     }
 

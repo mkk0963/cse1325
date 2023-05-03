@@ -18,7 +18,7 @@ std::string Vending_machine::menu()
 
     std::cout << "======================" << std::endl;
     std::cout << "Welcome to UTA Vending" << std::endl;
-    std::cout << "======================" << std::endl;
+    std::cout << "======================" << std::endl;     
 
     for (int i = 0; i < items.size(); i++) 
     {
