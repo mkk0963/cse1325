@@ -9,11 +9,13 @@ public class Customer implements Comparable<Customer>, Saveable
 {
     private String name;
     private String email;
+    private String imageFilename;
     
-    public Customer(String name, String email)
+    public Customer(String name, String email, String imageFilename)
     {
         this.name = name;
         this.email = email;
+        this.imageFilename = imageFilename;
 
         int index1 = email.indexOf("@"); // returns -1 if not found
         int index2 = email.indexOf(".", index1);
@@ -29,12 +31,19 @@ public class Customer implements Comparable<Customer>, Saveable
     {
         bw.write(name + '\n');
         bw.write(email + '\n');
+        bw.write(imageFilename + '\n');
     }
 
     public Customer(BufferedReader br) throws IOException
     {
         this.name = br.readLine();
         this.email = br.readLine();
+        this.imageFilename = br.readLine();
+    }
+
+    public String getImageFilename()
+    {
+        return imageFilename;
     }
 
     @Override

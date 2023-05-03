@@ -98,10 +98,12 @@ public class MainWin extends JFrame
         JMenuItem insertOrd = new JMenuItem("Order");
 
         JMenu view = new JMenu("View");
+        JMenu viewDetails = new JMenu("Details");
         JMenuItem viewCust = new JMenuItem("Customers");
         JMenuItem viewOpt = new JMenuItem("Options");
         JMenuItem viewComp = new JMenuItem("Computers");
         JMenuItem viewOrd = new JMenuItem("Orders");
+        JMenuItem viewDCust = new JMenuItem("Customers");
 
         JMenu help = new JMenu("Help");
         JMenuItem about = new JMenuItem("About");
@@ -121,6 +123,7 @@ public class MainWin extends JFrame
         viewOpt.addActionListener(event -> onViewClick(Record.OPTION));
         viewComp.addActionListener(event -> onViewClick(Record.COMPUTER));
         viewOrd.addActionListener(event -> onViewClick(Record.ORDER));
+        viewDCust.addActionListener(event -> onViewCustomerDetailsClick());
 
         about.addActionListener(event -> onAboutClick());
 
@@ -143,6 +146,8 @@ public class MainWin extends JFrame
         view.add(viewOpt);
         view.add(viewComp);
         view.add(viewOrd);
+        viewDetails.add(viewDCust);
+        view.add(viewDetails);
         help.add(about);
 
         // ///////////// //////////////////////////////////////////////////////////
@@ -265,6 +270,31 @@ public class MainWin extends JFrame
         status.setText(message);
     }
 
+    protected void onViewCustomerDetailsClick() 
+    {
+        setStatus("");
+        Object[] customersArr = store.customers();
+        JComboBox<Object> customerComboBox = new JComboBox<>(customersArr);
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Select Customer:"));
+        panel.add(customerComboBox);
+    
+        int result = JOptionPane.showConfirmDialog(this, panel, "Customer Details", JOptionPane.OK_CANCEL_OPTION);
+    
+        if (result == JOptionPane.OK_OPTION) 
+        {
+            Customer selectedCustomer = (Customer) customerComboBox.getSelectedItem();
+            if (selectedCustomer != null) 
+            {
+                display.setIcon(new ImageIcon(selectedCustomer.getImageFilename()));
+                display.setText(selectedCustomer.toString());
+            } else 
+            {
+                //display.setIcon(null);
+            }
+        }
+    }
+
     protected void onNewClick()
     {
         setStatus("");
@@ -370,13 +400,34 @@ public class MainWin extends JFrame
             JTextField emailField = new JTextField();
             panel.add(new JLabel("Email"));
             panel.add(emailField);
+
+            JTextField imageFilenameField = new JTextField();
+            panel.add(new JLabel("Photo"));
+            panel.add(imageFilenameField);
+
+            JButton chooseImageButton = new JButton("Choose Image");
+            panel.add(chooseImageButton);
+
+            chooseImageButton.addActionListener(event -> 
+            {
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(this);
+
+                if (result == JFileChooser.APPROVE_OPTION) 
+                {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    imageFilenameField.setText(selectedFile.getName());
+                }
+            });
     
             int result = JOptionPane.showConfirmDialog(this, panel, "New Customer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("gui/resources/add_customer.png"));
     
-            if (result == JOptionPane.OK_OPTION) {
+            if (result == JOptionPane.OK_OPTION) 
+            {
                 String name = nameField.getText().trim();
                 String email = emailField.getText().trim();
-                store.add(new Customer(name, email));
+                String imageFilename = imageFilenameField.getText().trim();
+                store.add(new Customer(name, email, imageFilename));
                 onViewClick(Record.CUSTOMER);
                 setStatus("Created Customer " + name + " with email: " + email);
             }
@@ -621,6 +672,7 @@ public class MainWin extends JFrame
                                                             .replaceAll("\n", "<br/>") + "</li>\n");
         sb.append("</ol></html>");
         display.setText(sb.toString());
+        //display.setIcon(null);
     }
 
     public class Canvas extends JPanel
