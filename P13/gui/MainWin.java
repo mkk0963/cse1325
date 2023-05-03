@@ -3,6 +3,7 @@ package gui;
 import javax.swing.JFrame;           // for main window
 import javax.swing.JOptionPane;      // for standard dialogs
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JMenuBar;         // row of menu selections
@@ -17,6 +18,7 @@ import javax.imageio.ImageIO;
 //import javax.swing.BorderFactory;    // manufacturers Border objects around buttons
 import javax.swing.Box;              // to create toolbar spacer
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 //import javax.swing.UIManager;        // to access default icons
 import javax.swing.JLabel;           // text or image holder
 import javax.swing.ImageIcon;        // holds a custom icon
@@ -44,6 +46,7 @@ import store.Customer;
 import store.Option;
 import store.Order;
 import store.Computer;
+import store.Cpu;
 import store.Store;
 
 
@@ -397,6 +400,14 @@ public class MainWin extends JFrame
         {
             JPanel panel = new JPanel(new GridLayout(5,10));
 
+            ButtonGroup group = new ButtonGroup();
+            JRadioButton cpu = new JRadioButton("CPU");
+            JRadioButton other = new JRadioButton("Other");
+            group.add(cpu);
+            group.add(other);
+            panel.add(cpu);
+            panel.add(other);
+
             JTextField nameField = new JTextField();
             panel.add(new JLabel("Option name"));
             panel.add(nameField);
@@ -405,13 +416,28 @@ public class MainWin extends JFrame
             panel.add(new JLabel("Option cost"));
             panel.add(costField);
 
+            JLabel label = new JLabel("GHz");
+            JTextField ghzField = new JTextField();
+            panel.add(label);
+            panel.add(ghzField);
+
             int result = JOptionPane.showConfirmDialog(this, panel, "New Option", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("gui/resources/add_option.png"));
             
             if(result == JOptionPane.OK_OPTION)
             {
                 String name = nameField.getText().trim();
                 long cost = (long) (100.0 * Double.parseDouble(costField.getText().trim()));
-                store.add(new Option(name, cost));
+
+                if(cpu.isSelected())
+                {
+                    double gigaHz = Double.parseDouble(ghzField.getText().trim());
+                    store.add(new Cpu(name, cost, gigaHz));
+                }
+                else
+                {
+                    store.add(new Option(name, cost));
+                }
+        
                 onViewClick(Record.OPTION);
                 setStatus("Created Option " + name);
             }

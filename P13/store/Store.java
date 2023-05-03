@@ -14,10 +14,10 @@ public class Store
     
     private String name;
 
-    TreeSet<Customer> customers = new TreeSet<>();
-    HashSet<Option> options = new HashSet<>();
-    HashSet<Computer> computers = new HashSet<>();
-    HashSet<Order> orders = new HashSet<>();
+    private TreeSet<Customer> customers = new TreeSet<>();
+    private HashSet<Option> options = new HashSet<>();
+    private HashSet<Computer> computers = new HashSet<>();
+    private HashSet<Order> orders = new HashSet<>();
 
     public Store(String name) 
     {
@@ -41,7 +41,19 @@ public class Store
         while(numCust-- > 0) customers.add(new Customer(br));
 
         int numOpt = Integer.parseInt(br.readLine());
-        while(numOpt-- > 0) options.add(new Option(br));
+        while(numOpt-- > 0)
+        {
+            String type = br.readLine();
+
+            if(type.equals("CPU" + '\n'))
+            {
+                options.add(new Cpu(br));
+            }
+            else
+            {
+                options.add(new Option(br));
+            }
+        }
 
         int numComp = Integer.parseInt(br.readLine());
         while(numComp-- > 0) computers.add(new Computer(br));

@@ -35,12 +35,14 @@ public class Option implements Saveable // inheritance is in the future!!
     @Override
     public void save(BufferedWriter bw) throws IOException
     {
+        bw.write("Option" + '\n');
         bw.write(name + '\n');
         bw.write("" + cost + '\n');
     }
 
     public Option(BufferedReader br) throws IOException
     {
+        br.readLine();
         this.name = br.readLine();
         this.cost = Long.parseLong(br.readLine());
     }
@@ -64,7 +66,7 @@ public class Option implements Saveable // inheritance is in the future!!
         {
             return true;
         }
-        if((o == null) ||  !(o instanceof Option))
+        if((o == null) || !(o instanceof Option))
         {
             return false;
         }
